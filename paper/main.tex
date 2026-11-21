@@ -1,0 +1,1472 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[hidelinks,pdfusetitle]{hyperref}
+\usepackage{microtype}
+\newcommand{\DOI}[1]{\mbox{\href{https://doi.org/#1}{\nolinkurl{#1}}}}
+\newcommand*{\PAPERDOI}{10.5281/zenodo.24412193}
+\newcommand*{\SUPPLEMENTDOI}{10.5281/zenodo.24412195}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\rank}{rank}
+\newcommand{\Nodd}{N_{\mathrm{odd}}}
+\newcommand{\Dphys}{D_{\mathrm{phys}}}
+\newcommand{\Daug}{D_{\mathrm{aug}}}
+\newcommand{\Dop}{\Delta}
+\newcommand{\dist}{\operatorname{dist}}
+\title{A fourth-power strong-coupling ceiling for electronic pair clustering
+on hypercubic lattices in three and more dimensions}
+\author{Davis Rens\\SuperMatics Inc.\\\href{https://orcid.org/0000-0001-5839-5197}{ORCID 0000-0001-5839-5197}}
+\date{}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We prove exponential clustering of equal-time on-site electronic pair correlations
+for the spinful Holstein model on the hypercubic torus $(\mathbb{Z}/M\mathbb{Z})^d$
+in every dimension $d\ge2$, with explicit constants that track the dimension.
+With $U=F^2/K$ the only hypothesis is
+$\beta t^2/U\le 1/C(d)$, where $C(d)=442368\,d^2(d+1)^2$; no restriction on the
+ratio $t/U$ is imposed, and the bound is uniform in the phonon frequency, the torus
+side and the chemical potential. At distinct sites
+\[
+ \bigl|\langle\Dop_x^\dagger\Dop_y\rangle\bigr|\le A(d)\,q(d)^{|x-y|_1},
+ \qquad A(d)=\frac{360(d+1)}{14d+29},\quad q(d)=\frac{5(2d-1)}{24(d+1)},
+\]
+with $\Dop_x=c_{x\downarrow}c_{x\uparrow}$. Hence a temperature below which pair
+correlations need not cluster obeys $k_BT_{\mathrm{pair}}(d)\le C(d)\,t^2/U$.
+In dimensions two and three the constants are explicit: $C(2)=15\,925\,248<2^{27}$,
+which improves the released square-lattice constant $2^{27}$ by a factor $8.43$,
+and $C(3)=63\,700\,992<2^{26}$, the first bound of this kind in dimension three.
+The mechanism has two independent parts. The hopping majorant is controlled edge by
+edge by an exact sum of squares on the sixteen-state bond Fock space, valid in every
+particle-number sector and for arbitrarily large hopping, so no smallness condition
+on $t/U$ arises. The combinatorial cost of connected bond supports is then paid by
+injecting site animals into rooted subtrees of a Bethe lattice, which replaces
+doubled-edge Euler tours and lowers the ceiling from order $d^5$ to order $d^4$.
+The bounds concern a clustering temperature of a two-point function, not a critical
+temperature, and no superconducting transition is claimed.
+\end{abstract}
+
+\section{Model and theorem}\label{sec:model}
+
+\subsection{The spinful Holstein model on a hypercubic torus}
+
+Fix an integer dimension $d\ge2$ and an integer side $M\ge4$. Let
+$\Lambda=(\mathbb{Z}/M\mathbb{Z})^d$ be the hypercubic discrete torus of volume
+$V=|\Lambda|=M^d$, with undirected nearest-neighbour edge set
+\[
+ E(\Lambda)=\bigl\{\{x,y\}\subset\Lambda:\ |x-y|_1=1\bigr\},
+ \qquad |E(\Lambda)|=dV,
+\]
+where $|x-y|_1=\sum_{j=1}^d\min(|x_j-y_j|,M-|x_j-y_j|)$ is the torus graph
+distance. Every site has physical coordination number $\Dphys(d)=2d$.
+
+On the tensor product of the electronic Fock space with one oscillator per site, let
+$c_{x\sigma},c_{x\sigma}^\dagger$ be canonical fermion operators with
+$\sigma\in\{\uparrow,\downarrow\}$, and set
+$n_{x\sigma}=c_{x\sigma}^\dagger c_{x\sigma}$,
+$n_x=n_{x\uparrow}+n_{x\downarrow}\in\{0,1,2\}$. With hopping amplitude $t\ge0$,
+oscillator coordinate $X_x$ and momentum $P_x$, mass $m>0$, spring constant $K>0$,
+coupling $F\ne0$ and chemical potential $\mu\in\mathbb{R}$, the grand-canonical
+Hamiltonian is
+\begin{equation}\label{eq:hamiltonian}
+ H_\Lambda(\mu)=-t\sum_{\{x,y\}\in E(\Lambda)}B_{\{x,y\}}
+ +\sum_{x\in\Lambda}\left[\frac{P_x^2}{2m}+\frac{KX_x^2}{2}-FX_x(n_x-1)\right]
+ -\mu\sum_{x\in\Lambda}(n_x-1),
+\end{equation}
+where
+$B_{\{x,y\}}=\sum_{\sigma}(c_{x\sigma}^\dagger c_{y\sigma}+c_{y\sigma}^\dagger c_{x\sigma})$.
+We write
+\begin{equation}\label{eq:scales}
+ U=\frac{F^2}{K}>0,\qquad \Omega=\hbar\sqrt{K/m}>0,\qquad
+ \tau=k_BT>0,\qquad \beta=\frac{1}{\tau},
+\end{equation}
+all in units of energy. Each local oscillator has been centred, so completing the
+square produces the uniform shift $-\frac U2\sum_x(n_x-1)^2$ and the atomic limit at
+$\mu=0$ is symmetric about half filling. The chemical term is written as
+$-\mu\sum_x(n_x-1)$; writing it as $-\mu\sum_x n_x$ instead, as in the released
+two-dimensional record \cite{rens2d}, changes the grand canonical partition function
+by the constant factor $e^{\beta\mu V}$ and leaves every correlation unchanged. There
+is no direct electron-electron interaction.
+
+The equal-time on-site singlet pair field is
+\[
+ \Dop_x=c_{x\downarrow}c_{x\uparrow},\qquad
+ \Dop_x^\dagger=c_{x\uparrow}^\dagger c_{x\downarrow}^\dagger,\qquad
+ \|\Dop_x\|_{\mathrm{op}}=1 .
+\]
+The field carries two electronic charges of the same sign and is therefore
+conjugated by a squared displacement under the polaron transformation of
+Section~\ref{sec:langfirsov}.
+
+\begin{definition}[Clustering temperature]\label{def:tpair}
+For $d\ge2$, let $T_{\mathrm{pair}}(d)$ be the infimum of the temperatures $\tau$
+with the following property. For every $\tau'>\tau$, every $M\ge4$, every real
+$\mu$ and every $\Omega>0$, there are constants $A_0,\xi>0$, independent of the
+volume, of $\mu$ and of $\Omega$, such that
+$|\langle\Dop_x^\dagger\Dop_y\rangle_{\beta',\mu,\Lambda}|
+ \le A_0e^{-|x-y|_1/\xi}$ for all distinct $x,y\in\Lambda$, and such that the rows
+of the correlation matrix are summable uniformly in $M$:
+$\sup_{M\ge4}\max_{x\in\Lambda}\sum_{y\in\Lambda}
+ |\langle\Dop_x^\dagger\Dop_y\rangle|<\infty$.
+\end{definition}
+
+$T_{\mathrm{pair}}$ is a clustering temperature. It is an upper threshold for
+exponential decay of one two-point function, and it says nothing about the existence
+of a phase transition at a critical temperature. Theorem~\ref{thm:main} below bounds
+$T_{\mathrm{pair}}$ from above; no statement about a superconducting state, about a
+transition temperature $T_c$, or about any material is made anywhere in this paper.
+
+\subsection{Main theorem}
+
+\begin{theorem}[Dimension-dependent pair-clustering ceiling]\label{thm:main}
+Let $d\ge2$ and let $\Lambda=(\mathbb{Z}/M\mathbb{Z})^d$ be a hypercubic torus of
+side $M\ge4$. Define
+\begin{equation}\label{eq:constants}
+ \begin{aligned}
+ \Dphys(d)&=2d, & \Daug(d)&=2d+2, & L(d)&=36\,\Daug(d)=72(d+1),\\
+ \varepsilon_0(d)&=+\infty, &
+ C(d)&=\frac{256}{3}\,d^2L(d)^2=442368\,d^2(d+1)^2, & &
+ \end{aligned}
+\end{equation}
+\begin{equation}\label{eq:constants2}
+\begin{gathered}
+ q(d)=\frac{5(2d-1)}{24(d+1)}<\frac{5}{12},\qquad
+ A(d)=\frac{15}{1-q(d)}=\frac{360(d+1)}{14d+29}<\frac{180}{7},\\
+ q_{\mathrm{sharp}}(d)=\frac{6\,903\,125\,(2d-1)}{40\,310\,784\,(d+1)}<q(d).
+\end{gathered}
+\end{equation}
+Then for every $t\ge0$, every $U>0$, every $\Omega>0$, every $M\ge4$ and every
+$\mu\in\mathbb{R}$, if
+\begin{equation}\label{eq:hypothesis}
+ \frac{\beta t^2}{U}\le\frac{1}{C(d)}
+ \qquad\Longleftrightarrow\qquad
+ k_BT\ge C(d)\,\frac{t^2}{U},
+\end{equation}
+then, for all distinct $x,y\in\Lambda$,
+\begin{equation}\label{eq:mainbound}
+ \bigl|\langle\Dop_x^\dagger\Dop_y\rangle_{\beta,\mu,\Lambda}\bigr|
+ \le A(d)\,q_{\mathrm{sharp}}(d)^{|x-y|_1}
+ \le A(d)\,q(d)^{|x-y|_1}.
+\end{equation}
+Moreover:
+\begin{enumerate}
+\item the rows are uniformly summable, with
+\begin{equation}\label{eq:rowsum}
+ \sup_{M\ge4}\max_{x\in\Lambda}\sum_{y\in\Lambda}
+ \bigl|\langle\Dop_x^\dagger\Dop_y\rangle_{\beta,\mu,\Lambda}\bigr|
+ \le 1+A(d)\left[\left(\frac{1+q(d)}{1-q(d)}\right)^d-1\right]<\infty;
+\end{equation}
+\item by the number-conserving pair-source construction of Section~\ref{sec:kp} and
+the pressure transfer of Section~\ref{sec:canonical}, the bounds \eqref{eq:mainbound} and \eqref{eq:rowsum}
+hold with the same constants under hypothesis \eqref{eq:hypothesis} in every
+translation-invariant thermodynamic canonical limit at interior total density
+$\rho\in(0,2)$, including balanced separately fixed spin densities
+$\rho_\uparrow=\rho_\downarrow=\rho/2\in(0,1)$;
+\item consequently, uniformly in $\Omega>0$, in the volume and in the chemical
+potential, the clustering temperature of Definition~\ref{def:tpair} satisfies
+\begin{equation}\label{eq:tpc}
+ k_BT_{\mathrm{pair}}(d)\le C(d)\,\frac{t^2}{U}=442368\,d^2(d+1)^2\,\frac{t^2}{U}.
+\end{equation}
+\end{enumerate}
+No condition on the ratio $t/U$ is imposed: hypothesis \eqref{eq:hypothesis} alone is
+used, and the bound holds for arbitrarily strong coupling.
+\end{theorem}
+
+The explicit constants are collected in Table~\ref{tab:constants}. The values of
+$C(d)$, $q(d)$, $q_{\mathrm{sharp}}(d)$ and $A(d)$, and the inclusion
+$q_{\mathrm{sharp}}(d)<q(d)$, are certified by exact rational arithmetic for
+$d=2,3,4,5$ (Section~\ref{sec:supplement}).
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}cccccccc@{}}
+\hline
+$d$ & $\Dphys=2d$ & $\Daug=2d+2$ & $L(d)$ & $C(d)$ & $\log_2C(d)$ & $q(d)$ & $A(d)$\\
+\hline
+$2$ & $4$ & $6$  & $216$ & $15\,925\,248$  & $23.925$ & $5/24$ & $360/19$\\
+$3$ & $6$ & $8$  & $288$ & $63\,700\,992$  & $25.925$ & $25/96$ & $1440/71$\\
+$4$ & $8$ & $10$ & $360$ & $176\,947\,200$ & $27.399$ & $7/24$ & $360/17$\\
+$5$ & $10$& $12$ & $432$ & $398\,131\,200$ & $28.569$ & $5/16$ & $240/11$\\
+\hline
+\end{tabular}
+\caption{Constants of Theorem~\ref{thm:main}. In every dimension the smallness
+cutoff on $t/U$ is absent, $\varepsilon_0(d)=+\infty$. The sharp decay rate is
+$q_{\mathrm{sharp}}(d)=0.17125$ for $d=2$, $0.21406$ for $d=3$, $0.23975$ for $d=4$
+and $0.25687$ for $d=5$.}
+\label{tab:constants}
+\end{table}
+
+Two comparisons fix the scale. In dimension two the released record
+\cite{rens2d} proves the ceiling $k_BT_{\mathrm{pair}}\le 2^{27}t^2/U$ with decay
+rate $5/64$ and prefactor $240/59$. Theorem~\ref{thm:main} gives
+$C(2)=15\,925\,248<2^{27}=134\,217\,728$, a factor $8.43$ smaller, at the price of a
+slower decay rate, $q(2)=5/24$ against $5/64$, and of a larger prefactor,
+$A(2)=360/19$ against $240/59$. In dimension three,
+\begin{equation}\label{eq:c3}
+ C(3)=442368\cdot9\cdot16=63\,700\,992<2^{26}=67\,108\,864<2^{27},
+\end{equation}
+which is below the two-dimensional constant of the released result and, as far as we
+know, is the first explicit pair-clustering ceiling for the three-dimensional
+Holstein model that is stated in terms of the microscopic parameters alone.
+
+\subsection{Baseline routes and the failure of a naive cubic extension}\label{sec:baselines}
+
+Two technical ingredients enter Theorem~\ref{thm:main}: the edge-local sum of
+squares of Section~\ref{sec:forms} in place of a conditional global form bound, and
+Bethe-tree vertex-animal counting in place of doubled-edge Euler-tour counting. To
+separate their effects we also record three baseline extensions, each a verbatim
+transcription of a released square-lattice proof with the degrees promoted to
+$2d$ and $2d+2$. Their proofs are in Section~\ref{sec:baselineproofs}.
+
+\begin{proposition}[Edge-local squares with Euler-tour counting]\label{prop:a0}
+Set $L_{\mathrm{ET}}(d)=24\,\Daug(d)^2=96(d+1)^2$,
+$\varepsilon_0(d)=+\infty$ and
+\begin{equation}\label{eq:a0constants}
+ C_{\mathrm{ET}}(d)=128\,d\,L_{\mathrm{ET}}(d)^2
+ =1\,179\,648\,d(d+1)^4=\Theta(d^5).
+\end{equation}
+If $\beta t^2/U\le1/C_{\mathrm{ET}}(d)$, then for all distinct $x,y$,
+\begin{equation}\label{eq:a0bound}
+ \bigl|\langle\Dop_x^\dagger\Dop_y\rangle\bigr|
+ \le\frac{76}{5}\,q_{\mathrm{ET}}(d)^{|x-y|_1},
+ \qquad q_{\mathrm{ET}}(d)=\frac{5d^2}{24(d+1)^2}<\frac{5}{24}.
+\end{equation}
+\end{proposition}
+
+\begin{proposition}[Conditional global form with Euler-tour counting]\label{prop:b1}
+Set $L_{\mathrm{CF}}(d)=2^{10}\Daug(d)^2=4096(d+1)^2$,
+\begin{equation}\label{eq:b1constants}
+\begin{gathered}
+ \varepsilon_0(d)=\frac{1}{32\,d\,L_{\mathrm{CF}}(d)}=\frac{1}{2^{17}d(d+1)^2}
+ =\Theta(d^{-3}),\\
+ C_{\mathrm{CF}}(d)=128\,d\,L_{\mathrm{CF}}(d)^2=2^{31}d(d+1)^4=\Theta(d^5).
+\end{gathered}
+\end{equation}
+If $t/U\le\varepsilon_0(d)$ and $\beta t^2/U\le1/C_{\mathrm{CF}}(d)$, then for all
+distinct $x,y$,
+\begin{equation}\label{eq:b1bound}
+ \bigl|\langle\Dop_x^\dagger\Dop_y\rangle\bigr|
+ \le\frac{9}{1-q_{\mathrm{CF}}(d)}\,q_{\mathrm{CF}}(d)^{|x-y|_1},
+ \qquad q_{\mathrm{CF}}(d)=\frac{27d^2}{1024(d+1)^2}.
+\end{equation}
+\end{proposition}
+
+\begin{proposition}[Conditional global form with Bethe-tree animals]\label{prop:b2}
+Retain the conditional bound $t/U\le1/(16\Dphys(d))=1/(32d)$ with gap share
+$\frac U4\Nodd(S)$ and the coarse fugacity bound $z_b/z_a<e$, but count vertex
+animals. Set $L_{\mathrm{VA}}(d)=120\,\Daug(d)=240(d+1)$,
+\begin{equation}\label{eq:b2constants}
+\begin{gathered}
+ \varepsilon_0(d)=\frac{1}{32\,d\,L_{\mathrm{VA}}(d)}=\frac{1}{7680\,d(d+1)}
+ =\Theta(d^{-2}),\\
+ C_{\mathrm{VA}}(d)=\frac{512}{3}\,d^2L_{\mathrm{VA}}(d)^2
+ =9\,830\,400\,d^2(d+1)^2=\Theta(d^4).
+\end{gathered}
+\end{equation}
+If $t/U\le\varepsilon_0(d)$ and $\beta t^2/U\le1/C_{\mathrm{VA}}(d)$, then pair
+correlations decay exponentially at rate $q_{\mathrm{VA}}(d)<5/11$.
+\end{proposition}
+
+For $d=2,3,4,5$ the ceilings are ordered
+$C_{\mathrm{ET}}(d)<C_{\mathrm{VA}}(d)<C_{\mathrm{CF}}(d)$, and each is certified
+exactly. So vertex-animal counting improves only the exponent of $d$, by one power,
+and at $d=3$ the unconditional edge-local estimate is then worth a further factor of
+$200/9$ in the ceiling, from $C_{\mathrm{VA}}(3)=1\,415\,577\,600$ down to
+$C(3)=63\,700\,992$.
+Proposition~\ref{prop:c} explains why the Euler-tour counting cannot be pushed to
+$2^{27}$ in dimension three.
+
+\begin{proposition}[Cubic obstruction for Euler-tour counting]\label{prop:c}
+In the canonical extension of the Euler-tour route at $d=3$, the Koteck\'y-Preiss
+condition reads
+\begin{equation}\label{eq:c19}
+ \frac{15}{4}\,\frac{q_{\mathrm{src}}}{1-q_{\mathrm{src}}}\le1
+ \qquad\Longleftrightarrow\qquad
+ q_{\mathrm{src}}\le\frac{4}{19}.
+\end{equation}
+At $\beta t^2/U=2^{-27}$, for every choice of the scale $L_7>0$ the source activity
+of that route satisfies the exact rational lower bound
+\begin{equation}\label{eq:c675}
+ q_{\mathrm{src}}(L_7)^2=\left(\frac{240}{L_7}\,
+ e^{48L_7^2/2^{27}}\right)^2>\frac{675}{8192}
+ >\frac{16}{361}=\left(\frac{4}{19}\right)^2 .
+\end{equation}
+Consequently no value of the scale admits the constant $2^{27}$ in that route in
+dimension three, and its least admissible ceiling there exceeds $2^{28.33}$.
+\end{proposition}
+
+\section{Context and scope}\label{sec:context}
+
+The Holstein model is the standard local electron-phonon model \cite{holstein}, and
+the polaron transformation used below is the Lang-Firsov transformation
+\cite{langfirsov}. The released square-lattice record \cite{rens2d}, with its
+supplement \cite{rens2dsupp}, proves the two-dimensional ceiling
+$k_BT_{\mathrm{pair}}\le2^{27}t^2/U$ together with the auxiliary estimates that the
+present paper promotes to general dimension; here those estimates are used as
+proved, with every dimension-dependent constant tracked.
+
+Cluster expansions for quantum lattice systems at intermediate temperature were
+developed by Fr\"ohlich, Rey-Bellet and Ueltschi \cite{fruhlich}, on the basis of the
+polymer methods of Datta, Fern\'andez and Fr\"ohlich \cite{dff}, Borgs, Koteck\'y and
+Ueltschi \cite{bku} and Borgs and Koteck\'y \cite{bkfermion}; the general criterion
+for abstract polymer models is that of Koteck\'y and Preiss \cite{kp}, and
+Ueltschi's Theorem 3.1 gives uniqueness and exponential clustering for the repulsive
+spinful Hubbard model in its low-temperature domain, which includes small
+$\beta t^2/\Delta$ and small $t/\Delta$ \cite{uelschiHubbard}. Ueltschi also develops
+correlation-function bounds for cluster expansions \cite{uelschiCorrelations}. On a
+bipartite lattice at particle-hole-symmetric half filling, a partial particle-hole
+transformation on one spin maps the attractive Hubbard model to the half-filled
+repulsive model and carries the on-site pair field to a staggered transverse spin.
+Pair clustering at the $t^2/U$ scale is therefore already known for the attractive
+Hubbard model at half filling. The high-frequency Holstein limit is the attractive
+Hubbard model, but the two models differ away from that limit, and the present
+statement is about the original oscillator degrees of freedom at every
+$\Omega>0$. Charge-density-wave and strong-coupling expansion results for related
+models are found in \cite{macris,freericks}.
+
+The distinction claimed here is narrow: an explicit exponential bound on the
+on-site electronic pair correlation of the original spinful Holstein model, on a
+hypercubic torus of arbitrary dimension $d\ge2$, with constants that are uniform in
+the phonon frequency and that are given in closed form in $d$, together with the
+first such bound in dimension three below the released two-dimensional constant.
+This is a statement about a two-point function of the model. It does not identify a
+transition, does not exclude other forms of order, and makes no material prediction.
+
+\section{The oscillator contraction is a contraction}\label{sec:langfirsov}
+
+Apply the on-site Lang-Firsov unitary
+\[
+ \mathcal U=\exp\!\left(-\alpha_{\mathrm{LF}}\sum_{x\in\Lambda}
+ (n_x-1)(b_x^\dagger-b_x)\right),
+ \qquad
+ \alpha_{\mathrm{LF}}=\frac{F}{\sqrt{2m\hbar\Omega^3}}
+ =\sqrt{\frac{U}{2\hbar\Omega}},
+\]
+with $X_x=\sqrt{\hbar/(2m\Omega)}\,(b_x+b_x^\dagger)$. The transformed Hamiltonian
+is $H_{\mathrm{LF}}=H_0+V_{\mathrm{LF}}$, where the atomic part is diagonal,
+\[
+ H_0=-\frac U2\sum_{x\in\Lambda}(n_x-1)^2-\mu\sum_{x\in\Lambda}(n_x-1)
+ +\hbar\Omega\sum_{x\in\Lambda}b_x^\dagger b_x,
+\]
+and the hopping is dressed by displacement operators,
+\[
+ V_{\mathrm{LF}}=-t\sum_{e\in E(\Lambda)}\widetilde B_e,\qquad
+ \widetilde B_{\{x,y\}}=\sum_{\sigma}\bigl(D_x^\dagger D_y\,c_{x\sigma}^\dagger
+ c_{y\sigma}+D_y^\dagger D_x\,c_{y\sigma}^\dagger c_{x\sigma}\bigr),
+\qquad
+ D_x=\exp\!\bigl(-\alpha_{\mathrm{LF}}(b_x^\dagger-b_x)\bigr).
+\]
+Since $\Dop_x$ carries charge two, $\mathcal U\Dop_x\mathcal U^\dagger
+=D_x^2\Dop_x$, and $\|D_x^2\|_{\mathrm{op}}=1$.
+
+Expand $e^{-\beta H_{\mathrm{LF}}}$ in a time-ordered Dyson series in the
+interaction picture of $H_0$ and insert, along the imaginary-time circle
+$[0,\beta)$, the resolution of the occupation basis
+\begin{equation}\label{eq:path}
+ |n(\tau)\rangle=\bigotimes_{x\in\Lambda}
+ |n_{x\uparrow}(\tau),\,n_{x\downarrow}(\tau)\rangle .
+\end{equation}
+The oscillator trace factorizes over sites. At a single site $x$, the polaronic
+counterterm of $H_0$ and the two-time Gaussian contraction,
+\begin{equation}\label{eq:contraction}
+ \frac U2\int_0^\beta\!\bigl(n_x(\tau)-1\bigr)^2d\tau
+ -\frac12\int_0^\beta\!\!\int_0^\beta d\tau\,d\tau'\,
+ \bigl(n_x(\tau)-1\bigr)K_{\beta,\Omega}(\tau-\tau')
+ \bigl(n_x(\tau')-1\bigr),
+\end{equation}
+together with $\int_0^\beta K_{\beta,\Omega}(u)\,du=U$, leave the residual weight
+\begin{equation}\label{eq:phi}
+ \Phi_{\beta,\Omega}[n_x]=\frac14\int_0^\beta\!\!\!\int_0^\beta
+ \bigl(n_x(\tau)-n_x(\tau')\bigr)^2K_{\beta,\Omega}(\tau-\tau')\,d\tau\,d\tau'
+ =\frac{U}{2\beta}\sum_{m\ne0}\frac{(2\pi m)^2}{(\beta\Omega)^2+(2\pi m)^2}
+ \bigl|\hat n_{x,m}\bigr|^2\ge0,
+\end{equation}
+with the positive periodic kernel
+\begin{equation}\label{eq:kernel}
+\begin{gathered}
+ K_{\beta,\Omega}(u)=\frac{U\Omega}{2}\,
+ \frac{\cosh\bigl(\Omega(\beta/2-|u|)\bigr)}{\sinh(\beta\Omega/2)}
+ =\frac U\beta\sum_{m\in\mathbb{Z}}
+ \frac{(\beta\Omega)^2}{(\beta\Omega)^2+(2\pi m)^2}\,e^{2\pi imu/\beta}>0,\\
+ \int_0^\beta K_{\beta,\Omega}(u)\,du=U .
+\end{gathered}
+\end{equation}
+The normalized free-oscillator expectation of the time-ordered displacement string
+at site $x$ equals $\exp(-\Phi_{\beta,\Omega}[n_x])$, with or without the equal-time
+insertions $D_x^2\Dop_x$ and $(D_y^\dagger)^2\Dop_y^\dagger$ at $\tau=0$, which are
+absorbed as jumps of the path. On a constant path $n_x(\tau)\equiv n_x(0)$ the
+difference in \eqref{eq:phi} vanishes and $\exp(-\Phi_{\beta,\Omega}[n_x])=1$; the
+zero Fourier mode contributes nothing. Because $K_{\beta,\Omega}>0$ and the squared
+difference is pointwise nonnegative, every path obeys
+\begin{equation}\label{eq:contractionbound}
+ \exp\!\left(-\sum_{x\in\Lambda}\Phi_{\beta,\Omega}[n_x]\right)\le1
+ \qquad\text{for every }\beta>0,\ \Omega>0,\ M\ge4 .
+\end{equation}
+The raw Gaussian weight obtained by integrating out the oscillators is not bounded
+by one; it is the residual \eqref{eq:phi} after the atomic counterterm that is
+bounded, and that is the quantity used below. The step is local in the site index
+and independent of $d$.
+
+Two remarks are needed for what follows. First, the bound \eqref{eq:contractionbound} is
+uniform as $\Omega\downarrow0$ through positive values, although $\alpha_{\mathrm{LF}}$
+diverges there, because $\alpha_{\mathrm{LF}}$ does not enter \eqref{eq:phi}; at
+fixed $\beta$ the kernel tends to $U/\beta$. No assertion is made at $\Omega=0$.
+Second, a closed path has neutral jumps at each site, and the displacement trace
+factorizes over sites, so every oscillator cross-action remains inside the connected
+spatial support on which it occurs. No factorization in time is used anywhere.
+
+\section{Signless majorant and connected supports}\label{sec:supports}
+
+In the occupation basis each undirected bond hop $B_e$, $e=\{u,v\}$, has matrix
+elements $\pm1$ whose fermionic signs have modulus one. Replacing every matrix
+element by its absolute value replaces $B_e$ by the signless two-site bond operator,
+again written $B_e$, acting on the sixteen-dimensional bond Fock space $\mathcal F_e$;
+a local gauge choice removes signs on a single bond.
+
+Introduce the bond-usage scale $L=L(d)>1$ and write each bond weight as
+$t=(t/L)L$. Consider the Dyson expansion of a source-perturbed partition function
+$Z_\Lambda(\xi;r)$, defined in Section~\ref{sec:kp}, in which the two-site
+pair-transfer labels $E_{\mathrm{src}}=\{\{x,x+r\}:x\in\Lambda\}$ carry weight
+$\beta L|\xi|$ each, and $E_{\mathrm{src}}=\emptyset$ when $\xi=0$. A term of order
+$m$ specifies labelled bond events $(e_1,\dots,e_m)$ at ordered times
+$0<\tau_1<\dots<\tau_m<\beta$.
+
+\paragraph{Two groupings.}
+Let $\widetilde E=\{e_1,\dots,e_m\}$ be the set of distinct active labels.
+
+(i) \emph{Connected bond sets.} Decompose $\widetilde E$ into bond components, two
+bonds being adjacent when they share an endpoint, and give a component $E_j$ with
+$k_j=|E_j|$ distinct bonds the factor $L^{-k_j}$, using $L^{-1}\le1$ on the first
+appearance of each distinct bond and $1$ afterwards. Summing over all time-ordered
+sequences whose distinct labels are $E_j$, with the covering restriction dropped,
+reconstructs the exponential $\exp(\beta t\sum_{e\in E_j}B_e)$ on the vertex span
+$V(E_j)$. This is the route of Propositions~\ref{prop:a0} and~\ref{prop:b1}.
+
+(ii) \emph{Connected vertex supports.} Let $S_1\sqcup\dots\sqcup S_p$ be the vertex
+sets of the connected components of
+$(\bigcup_{e\in\widetilde E}e,\widetilde E)$ in the source-extended graph
+$\Lambda_d^+=(\Lambda,E(\Lambda)\cup E_{\mathrm{src}})$. Each $S_j$ is connected and
+has $v_j=|S_j|\ge2$, so any spanning tree of $(S_j,\widetilde E|_{S_j})$ has
+$v_j-1$ edges and
+\begin{equation}\label{eq:handshakecount}
+ k_j=\bigl|\widetilde E|_{S_j}\bigr|\ge v_j-1\ge\frac{v_j}{2},
+ \qquad\text{hence}\qquad L^{-k_j}\le L^{-(v_j-1)} .
+\end{equation}
+The map $(e_1,\dots,e_m)\mapsto(S_1,\dots,S_p)$ partitions the active sequences into
+classes indexed by pairwise disjoint connected vertex sets. Within one class, summing
+over all sequences whose active labels lie in the induced label set
+$E_{\Lambda_d^+}(S_j)=\{e\in E(\Lambda)\cup E_{\mathrm{src}}:e\subset S_j\}$, with
+both the spanning and the covering restrictions dropped, is an upper bound for the
+sum of positive trajectory weights supported on $S_j$; it equals a single
+exponential trace on the Fock space of $S_j$ with all induced labels present. Each
+connected vertex support therefore contributes one polymer activity, instead of the
+$2^{|E(S)|}$ edge subsets or the Euler tours of each subset that the bond-set route
+must resum.
+
+The two ingredients that decide the final constant are then the size of that
+activity, which is governed by a quadratic-form estimate on the induced subgraph of
+$S$, and the number of connected vertex supports containing a given site, which is
+governed by animal counting. Sections~\ref{sec:forms} and~\ref{sec:animals} treat
+them in turn.
+
+\section{Quadratic-form estimates on induced subgraphs}\label{sec:forms}
+
+Let $S\subset\Lambda$ be a finite vertex set with $|S|=v\ge2$ and let
+$E_{\mathrm{phys}}(S)=\{e\in E(\Lambda):e\subset S\}$. Let
+$n_{\mathrm{odd},x}=\mathbf 1_{\{n_x=1\}}\in\{0,1\}$ be the projection onto odd site
+occupation, so that $(n_x-1)^2=1-n_{\mathrm{odd},x}$, and set
+\[
+ \Nodd(S)=\sum_{x\in S}n_{\mathrm{odd},x},\qquad
+ N_{\mathrm{odd},e}=n_{\mathrm{odd},u}+n_{\mathrm{odd},v}\quad(e=\{u,v\}).
+\]
+Every $x\in S$ is incident to at most $\Dphys(d)=2d$ bonds of
+$E_{\mathrm{phys}}(S)$, so summing $N_{\mathrm{odd},e}$ over edges gives the exact
+graph-degree handshake identity
+\begin{equation}\label{eq:handshake}
+ \sum_{e\in E_{\mathrm{phys}}(S)}N_{\mathrm{odd},e}
+ =\sum_{x\in S}\deg_{E_{\mathrm{phys}}(S)}(x)\,n_{\mathrm{odd},x}
+ \le 2d\,\Nodd(S),
+\end{equation}
+operator-wise, since the projections $n_{\mathrm{odd},x}$ are positive
+semidefinite and commute.
+
+\subsection{Edge-local sum of squares, unconditional in the hopping}
+
+The odd-site gap of the atomic Hamiltonian at site $x$ is $\frac U2$ on the
+singleton sector, and it pays for the hopping of a single bond through the
+following estimate on the sixteen-dimensional bond Fock space $\mathcal F_e$.
+
+\begin{lemma}[Edge-local sum of squares]\label{lem:sos}
+For every bond $e$, every $g\ge0$ and every $\alpha>0$,
+\begin{equation}\label{eq:localform}
+ g\,B_e\ \preceq\ \alpha\,N_{\mathrm{odd},e}+\frac{2g^2}{\alpha}\,I_{16},
+\end{equation}
+equivalently $R_e(g,\alpha):=\alpha N_{\mathrm{odd},e}+\frac{2g^2}{\alpha}I_{16}-gB_e
+\succeq0$, with no upper bound on $g$.
+\end{lemma}
+
+\begin{proof}
+$B_e$ and $N_{\mathrm{odd},e}$ conserve the bond particle number
+$N_e=n_u+n_v\in\{0,1,2,3,4\}$ and are graded by it, so the sectors are invariant.
+They are also invariant under the spin rotation that swaps the two sites together
+with the spin, so it suffices to treat each sector once.
+
+\emph{$N_e\in\{0,4\}$.} Here $B_e=0$ and $N_{\mathrm{odd},e}=0$, so
+$R_e=\frac{2g^2}{\alpha}I\succeq0$.
+
+\emph{$N_e\in\{1,3\}$.} Here $N_{\mathrm{odd},e}=I_4$ and $B_e$ splits into two
+decoupled spin doublets with matrix $\begin{pmatrix}0&1\\1&0\end{pmatrix}$. For each
+doublet and $\psi=(\psi_1,\psi_2)$,
+\[
+ \langle\psi,R_e\psi\rangle
+ =\Bigl|\sqrt\alpha\,\psi_1-\frac{g}{2\sqrt\alpha}\psi_2\Bigr|^2
+ +\Bigl|\sqrt\alpha\,\psi_2-\frac{g}{2\sqrt\alpha}\psi_1\Bigr|^2
+ +\frac{7g^2}{4\alpha}\bigl(|\psi_1|^2+|\psi_2|^2\bigr)\ge0 ,
+\]
+This is the sector in which the odd-preserving hop lives, and it is here that the
+completion of the square absorbs it for every $g$, not merely for small $g/U$.
+
+\emph{$N_e=2$ ($\dim=6$).} The four odd-odd states have $N_{\mathrm{odd},e}=2$ and
+the two doubly-occupied states have $N_{\mathrm{odd},e}=0$. On the symmetric
+combinations
+\[
+ |o_+\rangle=\tfrac1{\sqrt2}\bigl(|1,0,0,1\rangle+|0,1,1,0\rangle\bigr),\qquad
+ |e_+\rangle=\tfrac1{\sqrt2}\bigl(|1,1,0,0\rangle+|0,0,1,1\rangle\bigr),
+\]
+the signless operator acts as $B_e|e_+\rangle=2|o_+\rangle$ and
+$B_e|o_+\rangle=2|e_+\rangle$, and it annihilates the orthogonal four-dimensional
+subspace. Hence
+\[
+ R_e\big|_{\{|e_+\rangle,|o_+\rangle\}}
+ =\begin{pmatrix}\frac{2g^2}{\alpha}&-2g\\-2g&2\alpha+\frac{2g^2}{\alpha}\end{pmatrix}
+ =\begin{pmatrix}-\frac{\sqrt2 g}{\sqrt\alpha}\\ \sqrt{2\alpha}\end{pmatrix}
+  \begin{pmatrix}-\frac{\sqrt2 g}{\sqrt\alpha}&\sqrt{2\alpha}\end{pmatrix}
+ +\begin{pmatrix}0&0\\0&\frac{2g^2}{\alpha}\end{pmatrix}\succeq0 .
+\]
+This completes Lemma~\ref{lem:sos}.
+\end{proof}
+
+Summing \eqref{eq:localform} over $e\in E_{\mathrm{phys}}(S)$ with
+$g=L(d)\,t$ and applying \eqref{eq:handshake} gives, for every $g\ge0$ and every
+$\alpha>0$,
+\begin{equation}\label{eq:sumform}
+ g\!\!\sum_{e\in E_{\mathrm{phys}}(S)}\!\!B_e
+ \le\alpha\!\!\sum_{e\in E_{\mathrm{phys}}(S)}\!\!N_{\mathrm{odd},e}
+  +\frac{2g^2}{\alpha}\bigl|E_{\mathrm{phys}}(S)\bigr|I
+ \le2d\alpha\,\Nodd(S)+\frac{2g^2}{\alpha}\bigl|E_{\mathrm{phys}}(S)\bigr|I .
+\end{equation}
+The gap share is $\frac U4\Nodd(S)$ in both the unconditional and the conditional
+route, leaving the remaining $\frac U4\Nodd(S)$ of the atomic odd-site penalty
+$\frac U2\Nodd(S)$ for the suppression of odd-site occupancy. Setting
+\begin{equation}\label{eq:alpha}
+ 2d\alpha=\frac U4\ \Longleftrightarrow\ \alpha=\frac{U}{8d}
+ \quad\Longrightarrow\quad \frac{2g^2}{\alpha}=\frac{16\,d\,g^2}{U},
+\end{equation}
+and using $|E_{\mathrm{phys}}(S)|\le\frac12\Dphys(d)\,|S|=d\,|S|$, \eqref{eq:sumform}
+becomes the unconditional form bound
+\begin{equation}\label{eq:unconditional}
+ g\!\!\sum_{e\in E_{\mathrm{phys}}(S)}\!\!B_e
+ \le\frac U4\,\Nodd(S)+\frac{16\,d\,g^2}{U}\bigl|E_{\mathrm{phys}}(S)\bigr|I
+ \le\frac U4\,\Nodd(S)+\frac{16\,d^2g^2}{U}\,|S|\,I
+ \qquad(\forall g\ge0).
+\end{equation}
+Because \eqref{eq:localform} holds for all $g\ge0$, Theorem~\ref{thm:main} and
+Proposition~\ref{prop:a0} carry no upper bound on $t/U$.
+
+\subsection{The conditional global form and its smallness cutoff}
+
+The alternative route decomposes $B_{\mathrm{phys}}(S)=\sum_{e}B_e$ globally on
+$\mathcal F_S$ according to the change of $\Nodd$. Each of the $k=|E_{\mathrm{phys}}(S)|$
+bonds supports at most two spin-creation transitions and each odd site at most
+$\Dphys(d)=2d$ annihilation transitions, so weighted Cauchy-Schwarz with parameter
+$h>0$ gives
+\begin{equation}\label{eq:cs}
+\begin{gathered}
+ g(B_++B_-)\le2kgh\,I+\frac{2d\,g}{h}\,\Nodd(S),
+ \qquad h=\frac{16dg}{U},\\
+\Longrightarrow\quad
+ g(B_++B_-)\le\frac{32\,d\,k\,g^2}{U}\,I+\frac U8\,\Nodd(S).
+\end{gathered}
+\end{equation}
+Each odd-preserving hop touches an odd site, so each configuration has at most
+$2\Dphys(d)\Nodd(S)=4d\,\Nodd(S)$ such transitions, and
+\begin{equation}\label{eq:b0}
+ gB_0\le2\Dphys(d)\,g\,\Nodd(S)=4dg\,\Nodd(S).
+\end{equation}
+Absorbing \eqref{eq:b0} into the remaining $\frac U8\Nodd(S)$ requires
+\begin{equation}\label{eq:smallcutoff}
+ 2\Dphys(d)\,g\le\frac U8
+ \quad\Longleftrightarrow\quad
+ \frac{g}{U}\le\frac{1}{16\,\Dphys(d)}=\frac{1}{32\,d},
+\end{equation}
+which with $g=Lt$ is the cutoff $t/U\le1/(32\,d\,L)$; applied with the two scales
+of Propositions~\ref{prop:b1} and~\ref{prop:b2} it gives the thresholds
+$\varepsilon_0$ stated there. The condition is not an artefact of the
+estimates: in the $\Delta\Nodd=0$ channel the global count discards the local
+information that these hops act only within single bonds. On a single bond,
+$\Delta\Nodd=0$ transitions occur exclusively in the sectors $N_e\in\{1,3\}$ where
+$N_{\mathrm{odd},e}=1$, and there \eqref{eq:localform} already absorbs $gB_{0,e}$ for
+all $g\ge0$. Removing the cutoff is therefore not a matter of a better constant but of
+using the bond-local structure of the kinetic energy, and that is what
+Lemma~\ref{lem:sos} does.
+
+\subsection{Monotonicity and the single-site atomic fugacity ratio}
+
+\begin{lemma}[Trace monotonicity]\label{lem:monotone}
+Let $X\preceq Y$ be self-adjoint operators on a finite-dimensional space. Then all
+eigenvalues ordered increasingly satisfy $\lambda_j(X)\le\lambda_j(Y)$, and
+$\Tr e^{\beta X}\le\Tr e^{\beta Y}$ for every $\beta>0$.
+\end{lemma}
+
+\begin{proof}
+For any fixed $j$, the min-max formula
+$\lambda_j(Y)=\max_{\dim\mathcal V=j}\min_{v\in\mathcal V,\,\|v\|=1}\langle v,Yv\rangle$
+and the pointwise inequality $\langle v,Xv\rangle\le\langle v,Yv\rangle$ give
+$\lambda_j(X)\le\lambda_j(Y)$ for every $j$. As $s\mapsto e^{\beta s}$ is
+strictly increasing,
+$\Tr e^{\beta X}=\sum_je^{\beta\lambda_j(X)}\le\sum_je^{\beta\lambda_j(Y)}=\Tr e^{\beta Y}$.
+\end{proof}
+
+On $\mathcal F_S$ define
+$H_{\mathrm{at}}(S)=-\frac U2\sum_{x\in S}(n_x-1)^2-\mu\sum_{x\in S}(n_x-1)
+ =-\frac U2v\,I+\frac U2\Nodd(S)-\mu\sum_{x\in S}(n_x-1)$.
+Taking $X=-H_{\mathrm{at}}(S)+gB_{\mathrm{phys}}(S)$ and
+$Y=-H_{\mathrm{at}}(S)+\frac U4\Nodd(S)+\frac{16d^2L(d)^2t^2}{U}v\,I$, which dominates
+$X$ by \eqref{eq:unconditional}, and unwrapping the atomic identity
+$\frac U2\Nodd-\frac U4\Nodd$ gives
+\begin{equation}\label{eq:tracedrop}
+ \frac{\Tr_{\mathcal F_S}\bigl(e^{-\beta H_{\mathrm{at}}(S)+\beta L(d)t\,B_{\mathrm{phys}}(S)}\bigr)}
+      {\Tr_{\mathcal F_S}\bigl(e^{-\beta H_{\mathrm{at}}(S)}\bigr)}
+ \le e^{\delta_{\mathrm{phys}}(d)\,v}\prod_{x\in S}\frac{z_b(\mu)}{z_a(\mu)},
+\end{equation}
+where
+\begin{equation}\label{eq:delta}
+ \delta_{\mathrm{phys}}(d)=\frac{16\,d^2L(d)^2\beta t^2}{U}
+ \le\frac{16\,d^2L(d)^2}{\frac{256}{3}d^2L(d)^2}=\frac{3}{16}<\frac14 ,
+\end{equation}
+and, after factoring out $e^{\beta U/2-\beta\mu}$ and with $z=e^{\beta\mu}>0$ and
+$w=e^{-\beta U/4}\in(0,1)$,
+\begin{equation}\label{eq:zazb}
+ z_a(\mu)=1+2ze^{-\beta U/2}+z^2=1+2zw^2+z^2,\qquad
+ z_b(\mu)=1+2ze^{-\beta U/4}+z^2=1+2zw+z^2 .
+\end{equation}
+The bivariate polynomial identity
+\begin{equation}\label{eq:fivezb}
+ 5z_a(\mu)-4z_b(\mu)=(1-z)^2+2z(2w-1)^2+2zw^2>0
+ \qquad\Longrightarrow\qquad\frac{z_b(\mu)}{z_a(\mu)}<\frac54 ,
+\end{equation}
+which holds for every $z>0$ and every $w\in(0,1)$, together with
+\eqref{eq:tracedrop} and \eqref{eq:delta}, bounds the normalized physical trace on
+$S$ by $\bigl(\frac54e^{\delta_{\mathrm{phys}}(d)}\bigr)^v$ with
+$\delta_{\mathrm{phys}}(d)\le\frac{3}{16}<\frac14$, uniformly in $\mu\in\mathbb R$,
+$\Omega>0$ and $M\ge4$. Nothing in \eqref{eq:tracedrop} depends on the dimension
+beyond the explicit occurrences of $d$.
+
+\section{Counting connected supports by Bethe-tree animals}\label{sec:animals}
+
+\begin{lemma}[Bethe-tree injection and exact Lagrange formula]\label{lem:animals}
+Let $G$ be a simple graph of maximum degree $\Delta\ge2$, let
+$\mathcal A_G(x_0,v)$ be the set of connected $v$-element vertex sets containing
+$x_0$, and let $a_v(G)=\max_{x_0}|\mathcal A_G(x_0,v)|$. Let $\mathbb T_\Delta$ be
+the infinite $\Delta$-regular tree rooted at $o$, whose root has $\Delta$ children and
+every other vertex $\Delta-1$, and let $T_\Delta(v)$ count its connected $v$-element
+vertex sets containing $o$. Then:
+\begin{enumerate}
+\item there is an explicit injection $\mathcal A_G(x_0,v)\hookrightarrow
+ \mathcal A_{\mathbb T_\Delta}(o,v)$, so $a_v(G)\le T_\Delta(v)$;
+\item the generating function $R_\Delta(x)=\sum_{v\ge1}T_\Delta(v)x^v$ satisfies the
+ exact functional equation
+ \begin{equation}\label{eq:functional}
+ R_\Delta(x)=x\bigl(1+f_\Delta(x)\bigr)^\Delta,\qquad
+ f_\Delta(x)=x\bigl(1+f_\Delta(x)\bigr)^{\Delta-1},
+ \end{equation}
+ and by Lagrange inversion
+\begin{equation}\label{eq:lagrange}
+ T_\Delta(1)=1,\qquad T_\Delta(v)=\frac{\Delta}{v-1}\binom{v(\Delta-1)}{v-2}
+ \quad(v\ge2);
+\end{equation}
+\item on $\mathbb Z^d$ with $\Delta=2d$, $a_v(\mathbb Z^d)=T_{2d}(v)$ for
+ $v\in\{1,2,3\}$, and at $v=4$ the exact plaquette identity holds:
+\begin{equation}\label{eq:plaquette}
+ T_{2d}(4)-a_4(\mathbb Z^d)=12\binom d2=6d(d-1);
+\end{equation}
+\item for every $\Delta\ge2$ and $v\ge1$, $T_\Delta(v)\le(e\Delta)^{v-1}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(1) Fix a total order on $V(G)$ and injectively label, at each vertex, the incident
+edges by $1,\dots,\Delta$. Breadth-first search in $G[S]$ from $x_0$, visiting
+neighbours in increasing order, produces a unique rooted spanning tree $\tau(S)$ of
+$S$. Lifting $\tau(S)$ to $\mathbb T_\Delta$ along the edge labels, with
+$x_0\mapsto o$, gives a rooted subtree of size $v$: the walk is self-avoiding
+because $\tau(S)$ is a tree, and each non-root vertex uses at most $\Delta-1$
+directions other than its parent. Distinct $S$ give distinct trees, since $S$ is the
+vertex set of $\iota(S)$.
+
+(2) At the root, each of the $\Delta$ branches independently carries either nothing
+or a rooted subtree of the $(\Delta-1)$-ary branch, whence
+$R_\Delta=x(1+f_\Delta)^\Delta$ and $f_\Delta=x(1+f_\Delta)^{\Delta-1}$. Writing
+$R_\Delta=x\,g(f_\Delta)$ with $g(u)=(1+u)^\Delta$ and
+$\phi(u)=(1+u)^{\Delta-1}$, Lagrange inversion with $n=v-1\ge1$ gives
+\[
+ T_\Delta(v)=[x^n]g(f_\Delta(x))=\frac1n[u^{n-1}]\,g'(u)\phi(u)^n
+ =\frac1{v-1}[u^{v-2}]\,\Delta(1+u)^{v(\Delta-1)}
+ =\frac{\Delta}{v-1}\binom{v(\Delta-1)}{v-2}.
+\]
+
+(3) $\mathbb Z^d$ is bipartite, so no induced subgraph on at most three vertices has a
+cycle and no two distinct rooted trees on at most three vertices can cover the same
+vertex set; hence equality for $v\le3$. On $\mathbb Z^d$ the only cycles of length at
+most four containing the origin are the $4\binom d2$ coordinate plaquettes of side
+two. Each plaquette has four spanning trees, which lift to four distinct rooted
+subtrees of $\mathbb T_{2d}$ while giving a single four-vertex animal of
+$\mathbb Z^d$, so the excess is exactly $(4-1)\cdot4\binom d2=12\binom d2$.
+
+(4) $T_\Delta(1)=1=(e\Delta)^0$ and $T_\Delta(2)=\Delta<e\Delta$. For $v\ge3$, use
+$\binom Nm\le N^m/m!$ with $N=v(\Delta-1)$ and $m=v-2\ge1$, and the bound
+$v^{v-2}/(v-1)!=v^{v-1}/v!\le e^v/v<e^{v-1}$, which follows from
+$e^v=\sum_jv^j/j!>v^v/v!$ and $v\ge3>e$:
+\[
+ T_\Delta(v)=\frac{\Delta}{v-1}\binom{v(\Delta-1)}{v-2}
+ \le\Delta(\Delta-1)^{v-2}\frac{v^{v-1}}{v!}<\Delta^{v-1}e^{v-1}=(e\Delta)^{v-1}.
+\]
+\end{proof}
+
+The encoding of animals by rooted trees goes back to Klarner \cite{klarner}; the
+proof above is self-contained and does not use any external growth constant.
+Part (3) is the reason a four-vertex animal can hide a cycle, and it is the only place
+where the dimension enters the animal count at low order: the plaquette excess
+$12\binom{d}{2}$ grows like $6d^2$, while
+$T_{2d}(4)=\frac{2d}{3}\binom{8d-4}{2}$ grows like $\frac{64}{3}d^3$.
+
+Rather than use the coarse bound (4) inside the Koteck\'y-Preiss sum, we evaluate the
+exact generating function at one rational point.
+
+\begin{lemma}[Generating function at $y_0$]\label{lem:gf}
+For every integer $\Delta\ge2$ put
+\begin{equation}\label{eq:y0}
+ y_0=\frac{1}{6\Delta},\qquad x_0=\frac{y_0}{(1+y_0)^{\Delta-1}} .
+\end{equation}
+Then for every $x\in[0,x_0]$ the series $R_\Delta(x)$ converges and
+\begin{equation}\label{eq:gfbound}
+ \sum_{v\ge2}T_\Delta(v)\,x^v\le x\bigl((1+y_0)^\Delta-1\bigr)
+ <x\bigl(e^{1/6}-1\bigr)<\frac x5 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+$f_\Delta$ has nonnegative coefficients and $f_\Delta(x_0)=y_0$, so for
+$x\in[0,x_0]$ we have $f_\Delta(x)/x=(1+f_\Delta(x))^{\Delta-1}\le(1+y_0)^{\Delta-1}$,
+and monotone convergence of the coefficients gives
+\[
+ \sum_{v\ge2}T_\Delta(v)x^v
+ \le x\sum_{v\ge2}T_\Delta(v)x_0^{v-1}
+ =x\Bigl(\frac{R_\Delta(x_0)}{x_0}-1\Bigr)=x\bigl((1+y_0)^\Delta-1\bigr).
+\]
+By the binomial series $(1+\frac1{6\Delta})^\Delta<e^{1/6}$, and by the rational
+Taylor enclosure
+\begin{equation}\label{eq:eenc}
+ e=\sum_{n\ge0}\frac1{n!}
+ <\sum_{n=0}^5\frac1{n!}+\frac1{6!}\sum_{m\ge0}\Bigl(\frac17\Bigr)^m
+ =\frac{163}{60}+\frac1{720}\cdot\frac76=\frac{11743}{4320}<\frac{1175}{432}
+ <\Bigl(\frac65\Bigr)^6=\frac{46656}{15625},
+\end{equation}
+so that $e^{1/6}<6/5$ and $(1+y_0)^\Delta-1<1/5$.
+\end{proof}
+
+\section{Polymer activities, sources, and Koteck\'y-Preiss convergence}\label{sec:kp}
+
+\subsection{The pair-transfer source and the augmented degree}
+
+Fix a nonzero separation $r\in\Lambda\setminus\{0\}$ with $|r|_1\ge1$ and a real
+phase $\theta$. The number-conserving pair-transfer source on the pair
+$e=\{x,x+r\}$ is
+\begin{equation}\label{eq:source}
+ X_e(\theta)=e^{i\theta}\Dop_x^\dagger\Dop_{x+r}+e^{-i\theta}\Dop_{x+r}^\dagger\Dop_x,
+ \qquad\|X_e(\theta)\|_{\mathrm{op}}\le2,
+\end{equation}
+and the source-perturbed partition function is
+\[
+ Z_\Lambda(\xi;r)=\Tr\Bigl[e^{-\beta H_\Lambda(\mu)}\,
+ \mathcal T_\tau\exp\Bigl(\int_0^\beta\!d\tau\;\xi e^{i\theta}
+ \sum_{x\in\Lambda}\Dop_x^\dagger\Dop_{x+r}(\tau)+\text{h.c.}\Bigr)\Bigr],
+ \qquad \xi\in\mathbb C,
+\]
+where the fields are Heisenberg evolved and $\mathcal T_\tau$ is imaginary-time
+ordering. Writing $p_\Lambda(\xi)=V^{-1}\log Z_\Lambda(\xi;r)$,
+\[
+ p_\Lambda'(0)=\frac{2\beta}{V}\sum_{x\in\Lambda}
+ \operatorname{Re}\bigl(e^{i\theta}\langle\Dop_x^\dagger\Dop_{x+r}\rangle\bigr),
+\]
+so a bound at fixed $r$ gives the correlation function at every separation, and the
+translation average is what enters the canonical transfer of
+Section~\ref{sec:canonical}.
+
+For each source pair, the operator $X_e(\theta)$ transfers a pair between the two
+sites, mapping $|2,0\rangle\leftrightarrow|0,2\rangle$, a state with one site doubly
+occupied and the other empty; on both active local configurations $n_u,n_v\in\{0,2\}$,
+so $N_{\mathrm{odd},e}=0$. The odd-occupation
+penalty therefore vanishes on the active subspace of $X_e$ and cannot absorb it
+through a completion of squares. What replaces it is a norm bound. A source pair
+contributes at most one term per site of $S$, and each site of $\Lambda$ is the
+bottom end of at most one source pair, so a connected vertex support $S$ contains at
+most $v$ source pairs. Hence, on the source disk
+\begin{equation}\label{eq:disk}
+ |\xi|\le\frac{\tau}{16L(d)}=\frac{1}{16\beta L(d)},
+\end{equation}
+the source perturbation of a support $S$ obeys, by Lemma~\ref{lem:monotone} and the
+size estimate,
+\begin{equation}\label{eq:sourcepenalty}
+ \beta L(d)|\xi|\cdot v\cdot\|X_e\|_{\mathrm{op}}\le2\beta L(d)|\xi|\,v\le\frac v8<\frac v4 .
+\end{equation}
+Adding at most two source edges per site at displacements $\pm r$ raises the maximum
+degree of the underlying simple graph from $\Dphys(d)=2d$ to
+\begin{equation}\label{eq:daug}
+ \Daug(d)=\Dphys(d)+2=2d+2 .
+\end{equation}
+If a source label shares its endpoints with a nearest-neighbour bond or with the
+reverse translate, the resulting multigraph has parallel edges; connectedness of $S$
+depends only on the underlying simple graph of maximum degree $\Daug(d)$, so
+Lemma~\ref{lem:animals} applies unchanged. In the translation-averaged source each
+site initiates at most one term with both ends in $S$, so again at most $v$ source
+pairs per support.
+
+\subsection{Activity bound}
+
+For a connected vertex support $S$ with $v=|S|\ge2$ in the source-extended graph,
+combine the first-appearance scaling factor $L(d)^{-(v-1)}$ from
+\eqref{eq:handshakecount}, the single-site atomic ratio $(z_b/z_a)^v<(5/4)^v$ from
+\eqref{eq:fivezb}, the physical trace penalty $e^{\delta_{\mathrm{phys}}(d)v}$ from
+\eqref{eq:delta}, and the scalar source penalty $e^{2\beta L(d)|\xi|v}\le e^{v/8}$ from
+\eqref{eq:sourcepenalty}. The activity is then bounded by
+\begin{equation}\label{eq:activity}
+ |w(S)|\le L(d)^{-(v-1)}\Bigl(\frac54\,e^{\delta_{\mathrm{tot}}(d)}\Bigr)^{v},
+ \qquad
+ \delta_{\mathrm{tot}}(d)=\delta_{\mathrm{phys}}(d)+\begin{cases}0,& \xi=0,\\
+ 2\beta L(d)|\xi|,& \xi\ne0.\end{cases}
+\end{equation}
+In the physical ensemble $\delta_{\mathrm{tot}}=\delta_{\mathrm{phys}}\le\frac{3}{16}<\frac14$,
+and since $(4/3)^4=\frac{256}{81}>\frac{1175}{432}>e$ we have
+$e^{\delta_{\mathrm{phys}}}<e^{1/4}<\frac43$, so that
+\begin{equation}\label{eq:xphys}
+ x_{\mathrm{phys}}:=\frac{5}{4L(d)}\,e^{\delta_{\mathrm{phys}}(d)}e,
+ \qquad
+ L(d)\,x_{\mathrm{phys}}<\frac54\cdot\frac43\cdot\frac{1175}{432}
+ =\frac{5875}{1296}\approx4.5332<5 .
+\end{equation}
+In the source-perturbed ensemble on the disk \eqref{eq:disk},
+\begin{equation}\label{eq:deltatot}
+ \delta_{\mathrm{tot}}(d)\le\frac{3}{16}+\frac18=\frac{5}{16},
+\end{equation}
+and the exact rational enclosure
+\[
+ \Bigl(\frac{11}{8}\Bigr)^{16}=\frac{45\,949\,729\,863\,572\,161}{281\,474\,976\,710\,656}
+ >\Bigl(\frac{1175}{432}\Bigr)^{5}=\frac{2\,239\,697\,333\,984\,375}{15\,045\,919\,506\,432}
+ >e^5
+ \ \Longrightarrow\ e^{5/16}<\frac{11}{8}
+\]
+gives
+\begin{equation}\label{eq:xsrc}
+ x_{\mathrm{src}}:=\frac{5}{4L(d)}\,e^{\delta_{\mathrm{tot}}(d)}e,
+ \qquad
+ L(d)\,x_{\mathrm{src}}\le\frac54e^{5/16}e<\frac54\cdot\frac{11}{8}\cdot\frac{1175}{432}
+ =\frac{64\,625}{13\,824}\approx4.6748<5 .
+\end{equation}
+
+\subsection{Koteck\'y-Preiss criterion with sources}
+
+\begin{lemma}[Polymer convergence and support deletion]\label{lem:kp}
+Let $\mathcal S_\Lambda$ be a family of connected vertex supports $S\subset\Lambda$ with
+$|S|\ge2$, let $w:\mathcal S_\Lambda\to\mathbb C$ be activities, and declare
+$S,S'$ compatible iff $S\cap S'=\emptyset$. Set $a(S)=|S|$ and $d(S)=0$ and suppose
+\begin{equation}\label{eq:kpcond}
+ \sup_{x_0\in\Lambda}\sum_{S\in\mathcal S_\Lambda,\,S\ni x_0}|w(S)|\,e^{|S|}\le1 .
+\end{equation}
+Then:
+\begin{enumerate}
+\item the cluster expansion of $\log\sum_{\Gamma\text{ compatible}}\prod_{S\in\Gamma}w(S)$
+converges absolutely and its value is analytic in the activities on the polydisc
+defined by \eqref{eq:kpcond}, uniformly in $\Lambda$;
+\item for every multi-index derivative the corresponding truncated sum is bounded by
+the corresponding derivative of $\prod(1+|w(S)|e^{|S|})$ at the same point, so in
+particular $|\partial_\xi\log Z_\Lambda(\xi;r)|$ at $\xi=0$ is bounded by the
+linear activity sum;
+\item for every $S_0\in\mathcal S_\Lambda$ the ratio of polymer partition functions
+obtained by deleting $S_0$ obeys
+\begin{equation}\label{eq:deletion}
+ \Bigl|\frac{Z_{\Lambda\setminus S_0}}{Z_\Lambda}\Bigr|\le e^{|S_0|},
+\end{equation}
+and the same bound holds for the source-perturbed ensembles on the disk
+\eqref{eq:disk}.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+Statement (1) is Theorem~1 of Koteck\'y and Preiss \cite{kp} with
+$a(S)=|S|$, $d(S)=0$ and compatibility given by vertex disjointness: the condition
+$\sum_{S\not\sim S_0}|w(S)|e^{a(S)+d(S)}\le a(S_0)=|S_0|$ reduces, by subadditivity
+over the at most $|S_0|$ sites of $S_0$, to \eqref{eq:kpcond}. Statement (2) is the
+convergence of the Ursell sums on the polydisc, since convergence at a point of the
+polydisc with positive activities gives absolute convergence of every coefficient
+series and hence of every derivative. For (3), expand the ratio along the tree-graph
+(Penrose) identity: $\log(Z_{\Lambda}/Z_{\Lambda\setminus S_0})$ is a sum over
+connected clusters of the gas that meet $S_0$, each cluster contributing a product of
+activities whose modulus sum is bounded by $\sum_{x_0\in S_0}1=|S_0|$ because
+\eqref{eq:kpcond} is uniform in $\Lambda$. Adding constants to the logarithm gives
+\eqref{eq:deletion}. The source-perturbed statements are the same with the activities
+of \eqref{eq:activity}, whose pinned sums satisfy the same condition below.
+\end{proof}
+
+With $\Daug(d)=2d+2$ and the choice
+\begin{equation}\label{eq:L}
+ L(d)=36\,\Daug(d)=72(d+1),
+\end{equation}
+Lemma~\ref{lem:gf} at $y_0=1/(6\Daug(d))$ applies, because
+$(1+y_0)^{\Daug-1}<e^{1/6}<6/5$ by \eqref{eq:eenc} and therefore
+\begin{equation}\label{eq:x0order}
+ x_{\mathrm{phys}}\le x_{\mathrm{src}}<\frac{5}{L(d)}=\frac{5}{36\Daug(d)}
+ <x_0=\frac{1}{6\Daug(d)(1+y_0)^{\Daug(d)-1}} .
+\end{equation}
+Consequently the pinned Koteck\'y-Preiss budgets are strictly below one in every
+dimension:
+\begin{align}
+ \sum_{S\ni x_0,\,|S|\ge2}|w_{\mathrm{phys}}(S)|\,e^{|S|}
+ &<\frac{5875}{1296}\Bigl((1+y_0)^{2d+2}-1\Bigr)
+ <\frac{5875}{1296}\cdot\frac15=\frac{1175}{1296}<1,\label{eq:budgetphys}\\
+ \sum_{S\ni x_0,\,|S|\ge2}|w_{\mathrm{src}}(S)|\,e^{|S|}
+ &<\frac{64\,625}{13\,824}\Bigl((1+y_0)^{2d+2}-1\Bigr)
+ <\frac{64\,625}{13\,824}\cdot\frac15=\frac{12\,925}{13\,824}<1.\label{eq:budgetsrc}
+\end{align}
+Equations \eqref{eq:budgetphys} and \eqref{eq:budgetsrc} are the whole reason the
+constant $L(d)$ is of order $d$: the animal growth constant of the augmented graph is
+$\Daug(d)=2d+2$, so the activity must be paid by a first-appearance factor of order
+$d$ per site, and $L$ enters the final constant quadratically.
+
+\section{Decay rate and prefactor}\label{sec:decay}
+
+\subsection{Signed hard-core deletion}
+
+In the physical ensemble $Z_\Lambda$ is a signed hard-core polymer partition
+function,
+\begin{equation}\label{eq:signed}
+ \frac{Z_\Lambda}{Z_{\mathrm{at},\Lambda}}
+ =\sum_{\Gamma\text{ compatible}}\ \prod_{S\in\Gamma}w_{\mathrm{signed}}(S),
+ \qquad |w_{\mathrm{signed}}(S)|\le|w_{\mathrm{phys}}(S)| ,
+\end{equation}
+whose activities are bounded in absolute value by the input activities of the
+majorant.
+The activities are signed because a closed trajectory carries fermionic and
+orientational signs; the absolute-value majorant is what \eqref{eq:activity} bounds,
+and dropping the alternating terms of the sum is not legitimate. The deletion
+bound \eqref{eq:deletion} of Lemma~\ref{lem:kp} is exactly what replaces that
+dropping.
+
+Consider distinct $x,y\in\Lambda$ at distance $d_{\mathrm{dist}}=|x-y|_1\ge1$ and the
+two-point function $\langle\Dop_x^\dagger\Dop_y\rangle$. Any connected component of
+the trajectory support that contains exactly one of the two insertions has zero
+trace: it carries a single pair creation or annihilation operator, $\Dop_x^\dagger$ or
+$\Dop_y$, which changes the particle number of that component by two, and charge
+conservation kills the trace. Hence a single connected support $S_0$ carries both insertions, whence
+\begin{equation}\label{eq:size}
+ v=|S_0|=k+1\ge d_{\mathrm{dist}}+1,\qquad k:=v-1\ge d_{\mathrm{dist}}\ge1 .
+\end{equation}
+Since $\|\Dop_x^\dagger\Dop_y\|_{\mathrm{op}}=1$ and the pair insertion preserves the
+odd-occupation parity at both endpoints, the marked activity is bounded by
+\begin{equation}\label{eq:marked}
+ |w_{\mathrm{phys}}(S_0)|\le L(d)^{-k}\Bigl(\frac54e^{\delta_{\mathrm{phys}}(d)}\Bigr)^{k+1}.
+\end{equation}
+Multiplying \eqref{eq:marked} by the deletion factor $e^{k+1}$ of
+\eqref{eq:deletion} and summing over connected supports $S_0\supset\{x,y\}$, whose
+number is at most the number $T_{2d}(k+1)$ of size-$(k+1)$ animals rooted at $x$ in a
+graph of maximum degree $2d$ (Lemma~\ref{lem:animals}(1)), gives
+\begin{equation}\label{eq:geometric}
+ \bigl|\langle\Dop_x^\dagger\Dop_y\rangle\bigr|
+ \le\sum_{k\ge d_{\mathrm{dist}}}T_{2d}(k+1)L(d)^{-k}
+ \Bigl(\frac54e^{\delta_{\mathrm{phys}}(d)}e\Bigr)^{k+1}
+ =L(d)\sum_{k\ge d_{\mathrm{dist}}}T_{2d}(k+1)\,x_{\mathrm{phys}}^{k+1}.
+\end{equation}
+
+\subsection{Sharp evaluation of the animal generating function}
+
+To make the geometric series uniform rather than coefficient by coefficient, evaluate
+$R_{2d}(x)=x(1+f_{2d}(x))^{2d}=\sum_{k\ge0}T_{2d}(k+1)x^{k+1}$ of
+Lemma~\ref{lem:animals}(2) at
+\begin{equation}\label{eq:y1}
+ y_1=\frac1{2d-1},\qquad
+ x_1=\frac{y_1}{(1+y_1)^{2d-1}}.
+\end{equation}
+Since all coefficients are nonnegative and
+$\sum_{k\ge0}T_{2d}(k+1)x_1^k=R_{2d}(x_1)/x_1=(1+y_1)^{2d}$, every coefficient obeys
+\begin{equation}\label{eq:coeff}
+ T_{2d}(k+1)\le\frac{(1+y_1)^{2d}}{x_1^k}\qquad(k\ge0).
+\end{equation}
+Two estimates remain.
+
+\emph{Step ratio.} For integers $m\ge1$ and $2\le j\le m$,
+$\binom mj m^{-j}=\frac1{j!}\prod_{i=1}^{j-1}(1-\frac im)<\frac1{j!}$, so
+\begin{equation}\label{eq:elev}
+ \Bigl(1+\frac1m\Bigr)^m=2+\sum_{j=2}^m\binom mj\frac1{m^j}
+ <\sum_{j=0}^m\frac1{j!}<e<\frac{1175}{432}.
+\end{equation}
+With $m=2d-1\ge3$ this gives $1/x_1<(2d-1)\cdot\frac{1175}{432}$, and with
+$L(d)x_{\mathrm{phys}}<\frac{5875}{1296}$ from \eqref{eq:xphys} and
+$L(d)=72(d+1)$,
+\begin{equation}\label{eq:qsharp}
+ \frac{x_{\mathrm{phys}}}{x_1}
+ =\frac{L(d)x_{\mathrm{phys}}}{L(d)x_1}
+ <\frac{\frac{5875}{1296}\cdot\frac{1175}{432}(2d-1)}{72(d+1)}
+ =\frac{6\,903\,125\,(2d-1)}{40\,310\,784\,(d+1)}
+ =q_{\mathrm{sharp}}(d)<q(d)<\frac5{12}<1,
+\end{equation}
+where the factor $\frac{2d-1}{d+1}>0$ cancels and the middle inequality is the
+exact rational comparison
+$\frac{6\,903\,125}{40\,310\,784}\approx0.171248<\frac5{24}
+=\frac{8\,398\,080}{40\,310\,784}$.
+
+\emph{Prefactor.} The sequence $\bigl(1+\frac1{2d-1}\bigr)^{2d}$ is
+$\bigl(1+\frac1n\bigr)^{n+1}$ at $n=2d-1$, which is strictly decreasing in $n$;
+it is therefore largest at $d=2$, where
+$(1+\frac13)^4=(4/3)^4=\frac{256}{81}$, so for every $d\ge2$
+\begin{equation}\label{eq:prefactor}
+ L(d)\,x_{\mathrm{phys}}(1+y_1)^{2d}
+ <\frac{5875}{1296}\Bigl(1+\frac1{2d-1}\Bigr)^{2d}
+ \le\frac{5875}{1296}\cdot\frac{256}{81}=\frac{94\,000}{6561}\approx14.3271<15 .
+\end{equation}
+Substituting \eqref{eq:coeff}, \eqref{eq:qsharp} and \eqref{eq:prefactor} into
+\eqref{eq:geometric} yields, for all distinct $x,y\in\Lambda$,
+\begin{align}
+ \bigl|\langle\Dop_x^\dagger\Dop_y\rangle\bigr|
+ &\le L(d)\,x_{\mathrm{phys}}(1+y_1)^{2d}\sum_{k\ge d_{\mathrm{dist}}}
+ \Bigl(\frac{x_{\mathrm{phys}}}{x_1}\Bigr)^{k}\notag\\
+ &<15\sum_{k\ge d_{\mathrm{dist}}}q_{\mathrm{sharp}}(d)^{k}
+ =\frac{15}{1-q_{\mathrm{sharp}}(d)}\,q_{\mathrm{sharp}}(d)^{d_{\mathrm{dist}}}\notag\\
+ &\le\frac{15}{1-q(d)}\,q_{\mathrm{sharp}}(d)^{d_{\mathrm{dist}}}
+ =A(d)\,q_{\mathrm{sharp}}(d)^{d_{\mathrm{dist}}}\le A(d)\,q(d)^{d_{\mathrm{dist}}},
+ \label{eq:decay}
+\end{align}
+with $A(d)=\frac{15}{1-q(d)}=\frac{360(d+1)}{14d+29}$. This proves
+\eqref{eq:mainbound}.
+
+\subsection{Uniform row summability}
+
+On $\mathbb Z^d$ the distance $|z|_1=\sum_j|z_j|$ factors across coordinates, so
+\begin{equation}\label{eq:rowsumderivation}
+ \sum_{y\in\Lambda}\bigl|\langle\Dop_x^\dagger\Dop_y\rangle\bigr|
+ \le1+A(d)\sum_{z\in\mathbb Z^d\setminus\{0\}}q(d)^{|z|_1}
+ =1+A(d)\Bigl[\Bigl(\frac{1+q(d)}{1-q(d)}\Bigr)^{d}-1\Bigr]<\infty,
+\end{equation}
+the term $1$ coming from $y=x$, where the two insertions coincide and
+$\|\Dop_x^\dagger\Dop_x\|_{\mathrm{op}}=1$. This proves \eqref{eq:rowsum}. The factor
+$\bigl(\frac{1+q}{1-q}\bigr)^d$ is the only place where the sum over $\mathbb Z^d$
+rather than a fixed finite window is used, and it is finite for every $d$ because
+$q(d)<\frac5{12}<\frac12$; at $d=2$ it equals
+$\bigl(\frac{1+5/24}{1-5/24}\bigr)^2=\frac{841}{361}$.
+
+\section{Canonical thermodynamic limits}\label{sec:canonical}
+
+Everything so far is grand canonical. The transfer to canonical states uses the
+pair-source construction of Section~\ref{sec:kp} and the pressure of the \mbox{source-perturbed} ensemble, and it is a statement about thermodynamic limits, not about
+uniform finite-volume canonical estimates.
+
+Partition the torus into open hypercubes of side $\ell$ and keep only the bonds and
+source pairs with both ends in the same block. This removes at most $dV/\ell$
+boundary bonds, of unit operator norm, and at most $dV/\ell$ boundary source pairs,
+each of norm at most $2\beta L|\xi|$, so their total logarithmic contribution per
+site vanishes as $\ell\to\infty$ after $M\to\infty$. Because the local occupation is
+bounded by two, the number-allocation entropy of distributing electrons among
+$\ell^d$-site blocks is at most $\log(2\ell^d+1)/\ell^d$, or
+$2\log(\ell^d+1)/\ell^d$ for separately fixed spin numbers, and both tend to zero.
+The block decomposition therefore produces a concave canonical free-energy density
+$f(\rho)$ and its Legendre dual $p(\mu)=\sup_{\rho\in[0,2]}[f(\rho)+\beta\mu\rho]$,
+with $f$ concave and finite on $(0,2)$.
+
+At every interior density $\rho\in(0,2)$ a finite supporting chemical potential
+$\mu_*(\rho)$ exists, and by spin-exchange symmetry the balanced spin sectors
+$(\rho/2,\rho/2)$ with $\rho/2\in(0,1)$ are included. Since the
+Koteck\'y-Preiss convergence \eqref{eq:budgetsrc} on the source disk
+\eqref{eq:disk} and the resulting bound \eqref{eq:decay} are uniform in
+$\mu\in\mathbb R$ and in $M\ge4$, the secant-to-derivative comparison may be made
+uniformly: on the one hand the grand-canonical correlation at $\mu$ is bounded by
+\eqref{eq:decay}, on the other hand it is the derivative of the pressure with
+respect to the source field, and the quadratic Taylor remainder of the \mbox{source-perturbed} pressure is bounded by $4\xi^2/\xi_0^2$ for $|\xi|\le\xi_0/2$, with
+$\xi_0=\tau/(16L)$, because the expansion converges on the disk $\xi_0$ and Cauchy's
+formula applies there. Choosing
+the source amplitude of order $\ell^{-(d+1)}$ and letting $\ell\to\infty$ transfers
+\eqref{eq:decay} and \eqref{eq:rowsum} with identical constants to every
+translation-invariant canonical limit and to balanced separately fixed spin sectors.
+This proves part 2 of Theorem~\ref{thm:main}.
+
+The bounds are thus a statement about clustering of a two-point function, uniform in
+$\mu$ and in the volume, and they pass to canonical limits. They say nothing about
+finite-volume canonical states, about the existence of a phase transition, or about
+which of several thermodynamic limits is realised. Part 3 of
+Theorem~\ref{thm:main} follows because Definition~\ref{def:tpair} asks precisely for
+the uniform decay and summability that \eqref{eq:decay} and \eqref{eq:rowsum}
+supply, uniformly in $\Omega$.
+
+\section{The baseline routes and the cubic obstruction}\label{sec:baselineproofs}
+
+\subsection{Proof of Proposition~\ref{prop:a0}}
+
+Take the connected bond-set grouping. For a connected bond set $E$ with $k=|E|$, every
+vertex of $V(E)$ has at most $\Dphys(d)=2d$ incident bonds of $E$, and
+$|V(E)|\le k+1$ because a connected graph on $k$ edges spans at most $k+1$ vertices.
+The edge-local form \eqref{eq:localform} with $\alpha=U/(8d)$ gives, on the span of
+$E$,
+\[
+ g\sum_{e\in E}B_e\le\frac U4\Nodd(V(E))+\frac{8\Dphys(d)\,k\,g^2}{U}I,
+\]
+with the handshake \eqref{eq:handshake} now applied inside $V(E)$. The atomic ratio
+and the deletion factor contribute at most $(\frac54e)^{|V(E)|}\le(\frac54e)^{k+1}<\frac{15}{4}(\frac{15}{4})^k$,
+using $e<\frac{1175}{432}<3$ and hence $\frac54e<\frac{15}{4}$. With the doubled-edge
+Euler-tour count $a_k^{\mathrm{bond}}(G)\le\Daug(d)^{2k}$ for connected bond sets of
+size $k$ in a graph of maximum degree $\Daug(d)$ \cite{rens2d}, the physical and
+source step weights become
+\begin{equation}\label{eq:a0weights}
+ q_{\mathrm{phys}}^{\mathrm{A0}}(d)=\frac{15\Dphys(d)^2}{4L_{\mathrm{ET}}(d)}e^{\delta_{\mathrm{A0}}(d)},
+ \qquad
+ q_{\mathrm{src}}^{\mathrm{A0}}(d)=\frac{15\Daug(d)^2}{4L_{\mathrm{ET}}(d)}e^{\max(\delta_{\mathrm{A0}}(d),1/8)},
+\end{equation}
+with the $k=0$ site prefactor $\frac54e<\frac{15}{4}$. With
+$L_{\mathrm{ET}}(d)=24\Daug(d)^2=96(d+1)^2$ and
+$C_{\mathrm{ET}}(d)=64\Dphys(d)L_{\mathrm{ET}}(d)^2=128\,d\,L_{\mathrm{ET}}(d)^2$,
+\begin{equation}\label{eq:a0delta}
+ \delta_{\mathrm{A0}}(d)=\frac{8\Dphys(d)L_{\mathrm{ET}}(d)^2\beta t^2}{U}
+ \le\frac{8\Dphys(d)}{64\Dphys(d)}=\frac18<\frac14,
+ \qquad e^{\max(\delta_{\mathrm{A0}},1/8)}=e^{1/8}<e^{1/4}<\frac43,
+\end{equation}
+so
+\begin{equation}\label{eq:a0decay}
+ q_{\mathrm{src}}^{\mathrm{A0}}<\frac{15\Daug^2}{4L_{\mathrm{ET}}}\cdot\frac43
+ =\frac{5\Daug^2}{L_{\mathrm{ET}}}=\frac5{24},
+ \qquad
+ \frac{15}{4}\cdot\frac{q_{\mathrm{src}}^{\mathrm{A0}}}{1-q_{\mathrm{src}}^{\mathrm{A0}}}
+ <\frac{15}{4}\cdot\frac{5/24}{19/24}=\frac{75}{76}<1,
+\end{equation}
+and $q_{\mathrm{phys}}^{\mathrm{A0}}<\frac{5\Dphys^2}{L_{\mathrm{ET}}}=\frac{5d^2}{24(d+1)^2}=q_{\mathrm{ET}}(d)<\frac5{24}$.
+The prefactor $\frac{15/4}{1-q_{\mathrm{ET}}(d)}$ is bounded above by
+$\frac{15/4}{1-5/24}=\frac{90}{19}<\frac{76}{5}$; Proposition~\ref{prop:a0} quotes the
+coarser value $\frac{12}{1-5/24}=\frac{288}{19}<\frac{76}{5}$, which dominates this bound.
+This proves Proposition~\ref{prop:a0}.
+
+The comparison with Section~\ref{sec:kp} is the point. Both routes use the same
+edge-local estimate and the same odd-gap share, and the only difference is the count
+of connected supports: $24\Daug^2$ against $36\Daug$ for the usage scale, and the
+square of the scale cost against a single power. The Euler-tour route needs
+$L\propto\Daug^2$ because it pays per bond, and its ceiling therefore carries
+$\Daug^4\propto d^4$ times a further $d$ from $\Dphys=2d$ in \eqref{eq:a0weights},
+which is $\Theta(d^5)$.
+
+\subsection{Proof of Proposition~\ref{prop:b1}}
+
+Use the conditional form \eqref{eq:cs} and \eqref{eq:b0} on a $k$-edge connected
+bond set. Under $t/U\le\varepsilon_0(d)$, the form bound holds, and under
+$\beta t^2/U\le1/C_{\mathrm{CF}}(d)$ the quadratic residual is
+\begin{equation}\label{eq:b1residual}
+ \frac{16\Dphys(d)\,k\,L_{\mathrm{CF}}(d)^2\,\beta t^2}{U}\le\frac k4,
+\end{equation}
+since $C_{\mathrm{CF}}(d)=64\Dphys(d)L_{\mathrm{CF}}(d)^2$. Together with the coarse
+atomic and deletion constants of that route, the step weight at degree
+$D\in\{\Dphys,\Daug\}$ is bounded by
+\begin{equation}\label{eq:b1weight}
+ \frac{D^2e^{9/4}}{L_{\mathrm{CF}}(d)}<\frac{27D^2}{L_{\mathrm{CF}}(d)},
+\end{equation}
+because $e<3$ and hence $e^{9/4}<27$. With
+$L_{\mathrm{CF}}(d)=2^{10}\Daug(d)^2=4096(d+1)^2$,
+\begin{equation}\label{eq:b1numbers}
+ \varepsilon_0(d)=\frac{1}{16\Dphys L_{\mathrm{CF}}}=\frac{1}{2^{17}d(d+1)^2},\quad
+ C_{\mathrm{CF}}(d)=64\Dphys L_{\mathrm{CF}}^2=2^{31}d(d+1)^4,
+\end{equation}
+the source activity is $\frac{27\Daug^2}{L_{\mathrm{CF}}}=\frac{27}{1024}$, the
+Koteck\'y-Preiss budget is
+\begin{equation}\label{eq:b1kp}
+ e^2\,\frac{27/1024}{1-27/1024}<\frac{243}{997}<1
+\end{equation}
+since $e^2<9$, and the physical rate is
+$q_{\mathrm{CF}}(d)=\frac{27\Dphys^2}{L_{\mathrm{CF}}}=\frac{27d^2}{1024(d+1)^2}$ with
+prefactor $\frac{9}{1-q_{\mathrm{CF}}(d)}\le\frac{9216}{997}$. This proves
+Proposition~\ref{prop:b1}.
+
+\subsection{Proof of Proposition~\ref{prop:b2}}
+
+Keep the conditional form, now on a connected vertex support $S$ with $v=|S|\ge2$.
+Since $|E_{\mathrm{phys}}(S)|\le dv$, \eqref{eq:cs} gives
+\[
+ g\sum_{e\in E_{\mathrm{phys}}(S)}B_e\le\frac U4\Nodd(S)+\frac{32d^2g^2}{U}v\,I
+\]
+under \eqref{eq:smallcutoff}. With $L_{\mathrm{VA}}(d)=120\Daug(d)=240(d+1)$ and
+$C_{\mathrm{VA}}(d)=\frac{512}{3}d^2L_{\mathrm{VA}}(d)^2$, the physical penalty per
+site is $\delta_{\mathrm{B2}}(d)=\frac{32d^2L_{\mathrm{VA}}^2\beta t^2}{U}\le\frac{3}{16}$.
+Choose the source disk $|\xi|\le\tau/(32L_{\mathrm{VA}})$, on which
+$2\beta L_{\mathrm{VA}}|\xi|\le\frac1{16}$ and hence
+$\delta_{\mathrm{tot}}^{\mathrm{B2}}\le\frac3{16}+\frac1{16}=\frac14$, giving
+\begin{equation}\label{eq:b2K}
+ L_{\mathrm{VA}}(d)\,x_{\mathrm{B2}}(d)<K_{\mathrm{B2}}:=\frac43\Bigl(\frac{1175}{432}\Bigr)^2
+ =\frac{1\,380\,625}{139\,968}<\frac{1200}{121}<10 .
+\end{equation}
+Since $(11/10)^{11}=\frac{285\,311\,670\,611}{10^{11}}>\frac{1175}{432}>e$, evaluating
+Lemma~\ref{lem:gf} at $y_2=1/(11\Daug(d))$ gives $(1+y_2)^{\Daug(d)}-1<\frac1{10}$ and
+$x_{\mathrm{B2}}(d)<\frac{10}{121\Daug(d)}<x_0(y_2)$, so the Koteck\'y-Preiss budget is
+\begin{equation}\label{eq:b2kp}
+ \sum_{S\ni x_0,\,|S|\ge2}|w_{\mathrm{B2}}(S)|\,e^{|S|}
+ <\frac{1\,380\,625}{139\,968}\cdot\frac1{10}=\frac{276\,125}{279\,936}\approx0.9864<1
+\end{equation}
+and the rate obeys
+\begin{equation}\label{eq:b2q}
+ q_{\mathrm{VA}}(d)<\frac{1\,380\,625}{139\,968}\cdot\frac{1175(2d-1)}{432\cdot240(d+1)}
+ <\frac{1175(2d-1)}{10\,368(d+1)}<\frac{2d-1}{8(d+1)}<\frac14<\frac5{11} .
+\end{equation}
+This proves Proposition~\ref{prop:b2}. The two improvements act differently. Vertex
+animals buy exactly one power of $d$ asymptotically, since
+$C_{\mathrm{VA}}(d)=9\,830\,400\,d^2(d+1)^2$ against
+$C_{\mathrm{ET}}(d)=1\,179\,648\,d(d+1)^4$, and they cost nothing when the conditional
+form \eqref{eq:cs} is already available; note that $C_{\mathrm{VA}}(d)$ is in fact the
+smaller of the two for $d\ge7$, where the two powers of $\Daug$ in the Euler-tour
+count are no longer outweighed by the $\Dphys\propto d$ paid there. The edge-local
+squares do something else: they remove the conditional cutoff entirely and, at $d=3$,
+take the ceiling from $C_{\mathrm{VA}}(3)=1\,415\,577\,600$ to $C(3)=63\,700\,992$, a
+further factor of $200/9$; against the naive cubic Euler-tour extension the total
+gain at $d=3$ is the factor $128/9$ from $905\,969\,664$.
+
+\subsection{Proof of Proposition~\ref{prop:c}}\label{sec:propc}
+
+At $d=3$ the degrees are $\Dphys=6$ and $\Daug=8$. In the canonical formulation of
+the Euler-tour route at side length parameter $L_7>0$, the trace penalty is quadratic
+in the scale,
+\begin{equation}\label{eq:d6}
+ \delta_6=\frac{48L_7^2\beta t^2}{U},
+\end{equation}
+which is the value $3/8$ when $L_7=1024$ and $\beta t^2/U=2^{-27}$. The two step
+weights of that route are rational multiples of $e^{\delta_6}$ with the coefficients
+$135$ and $240$ at the physical and source degrees,
+\begin{equation}\label{eq:qroutes}
+ q_{\mathrm{phys}}=\frac{135}{L_7}e^{\delta_6},\qquad
+ q_{\mathrm{src}}=\frac{240}{L_7}e^{\delta_6},
+\end{equation}
+and the canonical Koteck\'y-Preiss condition there reads
+\begin{equation}\label{eq:canKP}
+ \frac{15}{4}\,\frac{q_{\mathrm{src}}}{1-q_{\mathrm{src}}}\le1
+ \quad\Longleftrightarrow\quad q_{\mathrm{src}}\le\frac{4}{19},
+\end{equation}
+since $15q\le4-4q$ rearranges to $19q\le4$. Now fix $C=2^{27}$ with
+$\beta t^2/U=1/C$ and put $u=48L_7^2/C>0$, so that $\delta_6=u$. Then
+\begin{equation}\label{eq:qsq}
+ q_{\mathrm{src}}(L_7)^2=\frac{240^2}{L_7^2}e^{2u}
+ =\frac{240^2\cdot48}{C}\cdot\frac{e^{2u}}{u}
+ =\frac{675}{32\,768}\cdot\frac{e^{2u}}{u}.
+\end{equation}
+For every $u>0$ the quadratic Taylor polynomial of $e^{2u}$ is exact enough:
+$1+2u+2u^2=4u+\frac12\bigl((2u-1)^2+1\bigr)>4u$, hence $e^{2u}>4u$ and
+\begin{equation}\label{eq:lowerq}
+ q_{\mathrm{src}}(L_7)^2>\frac{675}{32\,768}\cdot4=\frac{675}{8192}
+ \approx0.08239>\frac{16}{361}=\Bigl(\frac4{19}\Bigr)^2\approx0.04432 .
+\end{equation}
+At $C=2^{27}$ this holds for every $L_7>0$, so no scale rescues the constant
+$2^{27}$ in that route in dimension three, and the routes at $L_7=1024$ and
+$L_7=720$, the latter being the retuned value tried in the earlier cubic extension,
+both fail.
+
+The failure is quantitative, not marginal. Minimizing $q_{\mathrm{src}}$ over $L_7$
+at fixed $C$ is a one-variable problem: the logarithmic derivative $96L_7/C-1/L_7$
+vanishes at $L_7^2=C/96$, where $\delta_6=\frac12$ and
+\begin{equation}\label{eq:qmin}
+ \min_{L_7>0}q_{\mathrm{src}}=240\sqrt{\frac{96e}{C}} .
+\end{equation}
+The condition $q_{\mathrm{src}}\le4/19$ then requires
+\begin{equation}\label{eq:cmin}
+ C\ge96\,e\cdot1140^2=124\,761\,600\,e\approx3.3914\times10^{8}=2^{28.337}>2^{28.33},
+\end{equation}
+whereas the two-dimensional value is $2^{27}$: the least admissible ceiling of that
+route in three dimensions is $2^{1.337}$ times, that is about two and a half times,
+the value it was asserted to keep.
+The reason is visible in \eqref{eq:d6} and \eqref{eq:qroutes}: at $d=3$ the trace
+penalty is $\frac{48L_7^2\beta t^2}{U}$ and the source weight carries
+$240/L_7$, so the product is minimized when $\delta_6=\frac12$, and the value at that
+optimum grows like $\sqrt{96e/C}$, which is far above $4/19$ at $C=2^{27}$. This
+proves Proposition~\ref{prop:c}.
+
+\section{Discussion}\label{sec:discussion}
+
+\subsection{\texorpdfstring{Large-$d$ asymptotics}{Large-d asymptotics}}
+
+Table~\ref{tab:asymptotics} collects the four rigorous routes. Replacing Euler-tour
+counting by Bethe-tree vertex-animal counting improves the ceiling from
+$\Theta(d^5)$ to $\Theta(d^4)$ and the conditional threshold from $\Theta(d^{-3})$ to
+$\Theta(d^{-2})$; the edge-local squares then remove the threshold altogether
+($\varepsilon_0=+\infty$).
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}lcccc@{}}
+\hline
+Route & $\varepsilon_0(d)$ as $d\to\infty$ & $C(d)$ as $d\to\infty$ & $q(d)$ & $A(d)$\\
+\hline
+Theorem~\ref{thm:main}  & $+\infty$ & $442\,368\,d^4(1+O(d^{-1}))$ & $\nearrow\frac5{12}=0.4167$ & $\nearrow\frac{180}7=25.71$\\
+Proposition~\ref{prop:a0} & $+\infty$ & $1\,179\,648\,d^5(1+O(d^{-1}))$ & $\nearrow\frac5{24}=0.2083$ & $\frac{76}5=15.2$\\
+Proposition~\ref{prop:b1} & $\frac1{2^{17}d^3}(1+O(d^{-1}))$ & $2^{31}d^5(1+O(d^{-1}))$ & $\nearrow\frac{27}{1024}=0.0264$ & $\le\frac{9216}{997}=9.24$\\
+Proposition~\ref{prop:b2} & $\frac1{7680d^2}(1+O(d^{-1}))$ & $9\,830\,400\,d^4(1+O(d^{-1}))$ & $<\frac5{11}=0.4545$ & $O(1)$\\
+\hline
+\end{tabular}
+\caption{Asymptotic behaviour of the four rigorous routes. The decay rate of
+Theorem~\ref{thm:main} is stated for $q(d)=5(2d-1)/(24(d+1))$; the slightly better
+$q_{\mathrm{sharp}}(d)$ is not shown.}
+\label{tab:asymptotics}
+\end{table}
+
+Where do the four powers of $d$ in $C(d)$ come from? Take them one at a time.
+
+\emph{The first factor of $d$} comes from the handshake in the odd-occupation
+penalty. A single odd site can be shared by up to $\Dphys(d)=2d$ bonds, so the
+per-bond parameter in \eqref{eq:alpha} must be $\alpha=U/(8d)$, and the residual
+$\frac{2g^2}{\alpha}$ is multiplied by $2d$.
+
+\emph{The second factor of $d$} comes from the maximum induced bond density
+$|E_{\mathrm{phys}}(S)|\le d|S|$ in \eqref{eq:unconditional}, which turns
+$\frac{16dg^2}{U}$ per bond into $\frac{16d^2g^2}{U}$ per site and hence
+$\delta_{\mathrm{phys}}=\frac{16d^2L^2\beta t^2}{U}$.
+
+\emph{The remaining factor of $d^2$} comes from the polymer entropy. The growth
+constant of vertex animals on the source-extended graph is $\Daug(d)=2d+2$, so
+suppressing the animal series requires a first-appearance factor
+$L(d)=36\Daug(d)=\Theta(d)$, and since $g=L(d)t$ enters quadratically in
+$\frac{2g^2}{\alpha}$, the scale contributes $L(d)^2=\Theta(d^2)$.
+
+The product is $d\cdot d\cdot d^2=d^4$. The Euler-tour route has $L_{\mathrm{ET}}\propto\Daug^2$
+and therefore $L_{\mathrm{ET}}^2\propto d^4$, whence $C_{\mathrm{ET}}\propto d\cdot d^4=d^5$.
+The one power saved is precisely the difference between paying per bond and paying
+per connected vertex support: a bond set of size $k$ spanning at least $k/2$ vertices
+is counted once by the animal route, not $2^{|E(S)|}$ times.
+
+\subsection{Heuristic comparison with the superexchange scale}
+
+The following comparison is heuristic. It is not part of the theorem, no step of the
+proof uses it, and it does not identify a transition or a material.
+
+In the anti-adiabatic strong-coupling limit, second-order perturbation theory on the
+doubly-occupied and empty pseudospin subspace assigns each nearest-neighbour bond the
+superexchange coupling $J\sim4t^2/U$ \cite{langfirsov}. On a lattice of coordination
+$z=\Dphys(d)=2d$ the Weiss scale of that coupling is
+\begin{equation}\label{eq:heuristic}
+ k_BT_{\mathrm{heur}}(d)\sim zJ=2d\cdot\frac{4t^2}{U}=8d\,\frac{t^2}{U}=\Theta(d)\frac{t^2}{U},
+\end{equation}
+or half of that in the standard Heisenberg normalisation of the exchange, which does
+not change the order of growth. The rigorous ceiling grows like
+$C(d)\approx442\,368\,d^4$, so
+\begin{equation}\label{eq:ratio}
+ \frac{C(d)}{8d}=55\,296\,d(d+1)^2\sim55\,296\,d^3 .
+\end{equation}
+What is shared with the heuristic scale is the dependence on the electron-phonon
+coupling: both are proportional to $t^2/U$ and neither involves $\Omega$. What is not
+shared is the growth with $d$, and the three extra powers are the three factors
+traced above. They are the price of a sign-free majorant: any route that counts
+connected supports on a degree-$2d$ graph by a hard-core cluster expansion pays
+$L(d)=\Theta(d)$ per site, and no local rearrangement of the estimates removes that
+factor, because the animal series genuinely grows with rate $\Theta(d)$ per site.
+That a $\Theta(d^4)$ ceiling is not the true scale at large $d$ is therefore an
+expectation, not a consequence of the present argument.
+
+\subsection{Limitations}
+
+The bound is explicit but not optimal, and in two respects it is deliberately loose.
+The rate quoted in Theorem~\ref{thm:main} is $q(d)\to\frac5{12}$, while the sharper
+value obtained in the proof obeys $q_{\mathrm{sharp}}(d)\to 6\,903\,125/20\,155\,392\approx0.3425$; the simpler
+expression is kept because it gives the closed-form prefactor
+$A(d)=360(d+1)/(14d+29)$. The constant $C(d)$ is not expected to be sharp for any
+$d$, and the comparison $C(3)<2^{26}<2^{27}$ measures better bookkeeping rather than
+a better physical scale.
+
+The theorem bounds a clustering temperature of one two-point function, uniformly in
+the frequency and in the chemical potential, in both ensembles, via a canonical
+transfer through a source perturbation. It does not exclude order at temperatures
+below the bound, it does not identify the order parameter of any phase, and it makes
+no claim about a critical temperature or about a superconducting state. Physically,
+the model is a caricature: it has no direct electron-electron interaction, no phonon
+coupling beyond the on-site term, no hopping beyond nearest neighbours, and no disorder.
+
+Three technical restrictions should be stated plainly. The oscillator problem is
+treated at every $\Omega>0$ and no statement is made at $\Omega=0$, although the
+bounds are uniform as $\Omega\downarrow0$ through positive values; the released
+adiabatic bounds \cite{rensadiab,slow}, whose threshold vanishes as $\Omega\downarrow0$,
+are sharper in that limit and are not improved here. The torus side
+satisfies $M\ge4$, the condition under which the short-distance cycle structure of
+$\mathbb Z^d$ used in Lemma~\ref{lem:animals}(3) is the square-lattice one. And the
+canonical statement is a statement about thermodynamic limits at interior density,
+compatible with balanced separately fixed spin sectors, and not about finite-volume
+canonical states.
+
+\section{Supporting material}\label{sec:supplement}
+
+The preprint is archived at DOI \DOI{\PAPERDOI} and the supplement is archived at
+DOI \DOI{\SUPPLEMENTDOI}.
+
+The supplement is a single program of about seven hundred lines that recomputes, in
+exact rational and symbolic arithmetic, every finite witness quoted above; it needs no
+data file. Run without arguments it prints seventeen certified statements and exits
+zero only if all of them hold, covering the rational enclosures that fix $e$ and its
+powers, the single-bond and multi-bond form checks of Section~\ref{sec:forms}, the
+animal counts of Lemma~\ref{lem:animals}, the constants and budgets of
+Sections~\ref{sec:kp}, \ref{sec:decay}, \ref{sec:canonical}
+and~\ref{sec:baselineproofs}, and the limits quoted in Section~\ref{sec:discussion}.
+Run with the flag \verb|--mutants| it repeats the same checks with one guarded claim
+corrupted at a time, fifteen times, and exits zero only if every corrupted claim is
+rejected.
+
+The certified run and the mutant run were carried out on a clean copy of the
+supplement with uv 0.9.5, Python 3.13.9, sympy 1.14.0 and mpmath 1.3.0, and both
+exited zero. The manifest in the supplement lists the SHA-256 digests of its two files;
+the certificate program has digest
+\texttt{c7360a785071fbb7afbd94723fae4866dbc530b4598c8f744c7e5a93187d030b}.
+
+What the program certifies is arithmetic, not analysis. Its output lines assert exact
+rational or symbolic identities and inequalities; they do not replace the estimates of Sections~\ref{sec:forms} to~\ref{sec:canonical},
+which are ordinary inequalities for
+operators and for real numbers with a written derivation. Where a displayed constant
+can be checked by hand, as with $C(2)=15\,925\,248$ and $C(3)=63\,700\,992$, the
+program agrees with the text.
+
+\section*{AI assistance}
+
+The analytical results, the design of the estimates, and the final text are the
+author's responsibility. Independent proof reviews of the argument and of the
+certificate program were carried out by separate AI systems, whose comments led to
+several corrections recorded in the present version. The manuscript, its LaTeX
+source, and the certificate program were drafted and edited with AI assistance under
+the author's direction and review.
+\addcontentsline{toc}{section}{AI assistance}
+
+This preprint has not been peer reviewed.
+
+\appendix
+
+\section{Notation}\label{app:notation}
+
+\begin{tabular}{@{}ll@{}}
+$\Lambda$ & hypercubic torus $(\mathbb Z/M\mathbb Z)^d$, volume $V=M^d$\\
+$\Dphys(d)$ & physical coordination number, $2d$\\
+$\Daug(d)$ & source-extended degree, $2d+2$\\
+$B_e$, $\Nodd(X)$, $\deg$ & bond transfer operator, odd-occupation count, degree\\
+$g$ & bond-usage scaled hopping, $g=L(d)\,t$\\
+$\delta_{\mathrm{phys}}(d)$ & physical per-site penalty, $\frac{16d^2L(d)^2\beta t^2}{U}\le\frac{3}{16}$\\
+$\delta_{\mathrm{src}}(d)$ & source penalty, $\le\frac{1}{8}$\\
+$L(d)$, $C(d)$, $q(d)$, $A(d)$ & scale, ceiling, decay rate, prefactor of Theorem~\ref{thm:main}\\
+$x_{\mathrm{eff}}$, $x_0$, $x_1$ & uniform majorant of the activities, its Bethe limit, decay ratio\\
+$T_{\mathrm{pair}}$ & pair-correlation temperature of Definition~\ref{def:tpair}\\
+\end{tabular}
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}

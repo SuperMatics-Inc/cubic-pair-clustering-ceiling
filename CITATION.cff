@@ -1,0 +1,63 @@
+cff-version: 1.2.0
+message: Please cite the preprint and this replay supplement.
+title: 'Replay supplement for A fourth-power strong-coupling ceiling for electronic pair clustering on hypercubic lattices in three and more dimensions'
+authors:
+  - family-names: Rens
+    given-names: Davis
+    affiliation: SuperMatics Inc.
+    orcid: 'https://orcid.org/0000-0001-5839-5197'
+doi: 10.5281/zenodo.24412195
+version: 1.0.0
+date-released: 2026-11-20
+license: Apache-2.0
+references:
+  - type: article
+    status: preprint
+    title: 'A fourth-power strong-coupling ceiling for electronic pair clustering on hypercubic lattices in three and more dimensions'
+    authors:
+      - family-names: Rens
+        given-names: Davis
+        affiliation: SuperMatics Inc.
+        orcid: 'https://orcid.org/0000-0001-5839-5197'
+    year: 2026
+    doi: 10.5281/zenodo.24412193
+    license: CC-BY-4.0
+  - type: article
+    status: preprint
+    title: 'Strong-coupling suppression of electronic pair order in the Holstein model, uniformly in phonon frequency and without a hopping cutoff'
+    authors:
+      - family-names: Rens
+        given-names: Davis
+        affiliation: SuperMatics Inc.
+        orcid: 'https://orcid.org/0000-0001-5839-5197'
+    year: 2026
+    doi: 10.5281/zenodo.24380128
+  - type: software
+    title: 'Supplement to: Strong-coupling suppression of electronic pair order in the Holstein model'
+    authors:
+      - family-names: Rens
+        given-names: Davis
+        affiliation: SuperMatics Inc.
+        orcid: 'https://orcid.org/0000-0001-5839-5197'
+    year: 2026
+    doi: 10.5281/zenodo.24380140
+  - type: article
+    status: preprint
+    title: 'A two-thirds-power adiabatic bound for electronic pair order'
+    authors:
+      - family-names: Rens
+        given-names: Davis
+        affiliation: SuperMatics Inc.
+        orcid: 'https://orcid.org/0000-0001-5839-5197'
+    year: 2026
+    doi: 10.5281/zenodo.24372238
+  - type: article
+    status: preprint
+    title: 'Suppression of electronic pair order for slow lattice phonons'
+    authors:
+      - family-names: Rens
+        given-names: Davis
+        affiliation: SuperMatics Inc.
+        orcid: 'https://orcid.org/0000-0001-5839-5197'
+    year: 2026
+    doi: 10.5281/zenodo.24366508

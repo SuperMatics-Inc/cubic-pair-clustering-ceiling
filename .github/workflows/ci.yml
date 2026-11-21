@@ -1,0 +1,135 @@
+name: replay-and-paper
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Source manifest
+        run: |
+          set -euo pipefail
+          sha256sum -c MANIFEST.sha256
+          (cd replay && sha256sum -c MANIFEST.sha256)
+      - name: Manifest covers every tracked file
+        run: |
+          set -euo pipefail
+          git ls-files | grep -vx 'MANIFEST.sha256' | grep -vx 'replay/MANIFEST.sha256' | sort > tracked.txt
+          sed -E 's/^[0-9a-f]{64}  //' MANIFEST.sha256 | grep -vx 'replay/MANIFEST.sha256' | sort > manifested.txt
+          diff -u manifested.txt tracked.txt
+      - name: No review-cycle file in the tree
+        run: |
+          set -euo pipefail
+          if git ls-files | grep -niE '(^|/)reviews?/|review|fix[0-9]*\.|scoping|cover-letter|backup|\.v[0-9]+\.'; then exit 1; fi
+      - name: Install the replay dependencies
+        run: python -m pip install --disable-pip-version-check sympy==1.14.0 mpmath==1.3.0
+      - name: Certified replay must exit zero with seventeen CERTIFIED lines
+        run: |
+          set -euo pipefail
+          set +e
+          python -B replay/replay.py > "$RUNNER_TEMP/replay.out" 2> "$RUNNER_TEMP/replay.err"
+          rc=$?
+          set -e
+          cat "$RUNNER_TEMP/replay.out" "$RUNNER_TEMP/replay.err"
+          test "$rc" -eq 0 || { echo "replay.py exited $rc, expected 0"; exit 1; }
+          test ! -s "$RUNNER_TEMP/replay.err" || { echo "replay.py wrote to stderr"; exit 1; }
+          test "$(grep -c '^CERTIFIED ' "$RUNNER_TEMP/replay.out")" -eq 17 || { echo "expected 17 CERTIFIED lines"; exit 1; }
+          grep -qF 'C=15925248' "$RUNNER_TEMP/replay.out"
+          grep -qF 'C=63700992' "$RUNNER_TEMP/replay.out"
+          grep -qF 'C(d)/d^4 -> 442368' "$RUNNER_TEMP/replay.out"
+      - name: The mutant run must reject all fifteen
+        run: |
+          set -euo pipefail
+          set +e
+          python -B replay/replay.py --mutants > "$RUNNER_TEMP/mutants.out" 2> "$RUNNER_TEMP/mutants.err"
+          rc=$?
+          set -e
+          cat "$RUNNER_TEMP/mutants.out" "$RUNNER_TEMP/mutants.err"
+          test "$rc" -eq 0 || { echo "replay.py --mutants exited $rc, expected 0"; exit 1; }
+          test ! -s "$RUNNER_TEMP/mutants.err" || { echo "replay.py --mutants wrote to stderr"; exit 1; }
+          test "$(grep -c 'MUTANT .*: REJECTED (' "$RUNNER_TEMP/mutants.out")" -eq 15 || { echo "expected 15 rejected mutants"; exit 1; }
+          grep -qxF 'ALL 15 MUTANTS REJECTED' "$RUNNER_TEMP/mutants.out"
+      - name: Public prose safeguards
+        run: |
+          set -euo pipefail
+          if grep -nE '—|D:/|C:/|/scratch/|ceiling-20261118|MASSIVE|CUBIC|STAGE|PAIR-FLOOR|reserved DOI' \
+              paper/main.tex paper/refs.bib replay/README.md replay/replay.py; then exit 1; fi
+          if grep -nF -- '---' paper/main.tex; then exit 1; fi
+          if grep -nE '—|D:/|C:/|/scratch/|ceiling-20261118|MASSIVE|CUBIC|STAGE|PAIR-FLOOR|reserved DOI' README.md CITATION.cff; then exit 1; fi
+          test "$(grep -cF '10.5281/zenodo.24412193' paper/main.tex)" -eq 1
+          test "$(grep -cF '10.5281/zenodo.24412195' paper/main.tex)" -eq 1
+          flat="$(tr -s '[:space:]' ' ' < README.md)"
+          for phrase in \
+            'This preprint has not been peer reviewed.' \
+            'AI agents generated proofs, certificates, code, and manuscript drafts and edits under D. Rens' \
+            'Separate AI agents performed the independent reviews of the cited records.' \
+            'no superconducting transition is claimed' \
+            'the first bound of this kind in dimension three' \
+            'k_B T_pair(d) <= C(d) t^2/U'; do
+            case "$flat" in
+              *"$phrase"*) ;;
+              *) echo "missing from README.md: $phrase"; exit 1 ;;
+            esac
+          done
+  paper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SOURCE_DATE_EPOCH: "1795132800"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Tectonic and poppler
+        run: |
+          set -euo pipefail
+          curl -fsSL https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%400.17.0/tectonic-0.17.0-x86_64-unknown-linux-gnu.tar.gz | sudo tar -xz -C /usr/local/bin
+          test "$(tectonic --version)" = "Tectonic 0.17.0"
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends poppler-utils
+      - name: Build the manuscript
+        working-directory: paper
+        run: |
+          set -euo pipefail
+          tectonic --keep-logs main.tex
+          test "$(grep -c 'Overfull' main.log)" -eq 0
+          test "$(grep -c 'Underfull' main.log)" -eq 0
+          if grep -nE 'Reference .*undefined|Citation .*undefined|There were undefined|multiply defined|LaTeX Warning' main.log; then exit 1; fi
+          test -s main.pdf
+          pdfinfo main.pdf | grep -qE '^Pages:[[:space:]]+23$'
+          pdfinfo -url main.pdf > urls.txt
+          grep -qF 'https://doi.org/10.5281/zenodo.24412193' urls.txt
+          grep -qF 'https://doi.org/10.5281/zenodo.24412195' urls.txt
+          pdftotext main.pdf main.txt
+          if grep -nE '—|D:/|C:/|/scratch/|ceiling-20261118|MASSIVE|CUBIC|PAIR-FLOOR|\blane\b|claude|PAPERDOI|SUPPLEMENTDOI' main.txt; then exit 1; fi
+          flat="$(tr -s '[:space:]' ' ' < main.txt)"
+          tight="$(printf '%s' "$flat" | tr -d ' ')"
+          for marker in 'This preprint has not been peer reviewed.' 'AI assistance' 'Davis Rens' 'SuperMatics Inc.' \
+                        '0000-0001-5839-5197' '10.5281/zenodo.24412193' '10.5281/zenodo.24412195'; do
+            case "$flat" in
+              *"$marker"*) ;;
+              *) echo "missing from the PDF text: $marker"; exit 1 ;;
+            esac
+          done
+          for marker in '442368' 'C(2)=15925248' 'C(3)=63700992' 'thefirstboundofthiskind'; do
+            case "$tight" in
+              *"$marker"*) ;;
+              *) echo "missing from the PDF text (spaces folded): $marker"; exit 1 ;;
+            esac
+          done
+          sha256sum main.pdf
+          md5sum main.pdf
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cubic-pair-clustering-ceiling-paper
+          path: |
+            paper/main.pdf
+            paper/main.log
+            paper/main.tex
+            paper/refs.bib
+            paper/urls.txt
+            paper/main.txt
+          if-no-files-found: error
