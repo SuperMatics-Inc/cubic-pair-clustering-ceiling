@@ -1,4 +1,5 @@
 # A fourth-power strong-coupling ceiling for electronic pair clustering on hypercubic lattices in three and more dimensions
+Research record: [A fourth-power strong-coupling ceiling for electronic pair clustering on hypercubic lattices in three and more dimensions](https://supermatics.io/research/cubic-pair-clustering-ceiling).
 
 Davis Rens, SuperMatics Inc. ([ORCID 0000-0001-5839-5197](https://orcid.org/0000-0001-5839-5197)).
 Version 1.0.0.
